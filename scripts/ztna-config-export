@@ -1,0 +1,52 @@
+#!/bin/bash
+# ztna-config-export - sanitised archive of this node's configuration (no secrets).
+# Installed as /usr/local/sbin/ztna-config-export (root, mode 700) on every server.
+# Paths to export: /etc/ztna-export.list (one per line, # = comment).
+# Removed: private keys, .env files, backup copies. Redacted: secret values.
+# Recorded: file modes/owners and symbolic links (lost on Windows otherwise).
+# Usage: ztna-config-export [OUTPUT.tgz | -]   ("-" = write to stdout, used later by the backup job)
+set -euo pipefail
+LIST=/etc/ztna-export.list
+host=$(hostname -s)
+out=${1:-/tmp/ztna-config-${host}-$(date +%F).tgz}
+stage=$(mktemp -d)
+trap 'rm -rf "$stage"' EXIT
+root="$stage/$host"
+mkdir -p "$root"
+
+while IFS= read -r p; do
+    case "$p" in ''|'#'*) continue ;; esac
+    if [ -e "$p" ]; then cp -a --parents "$p" "$root"; else echo "missing: $p" >&2; fi
+done < "$LIST"
+
+# 1. Drop what must never leave the node
+find "$root" -type f \( -name '.env' -o -name '*.env' -o -name '*.bak*' \) -delete
+{ grep -rlZ -e 'PRIVATE KEY' "$root" || true; } | xargs -0r rm -f
+
+# 2. Record metadata that Windows cannot keep, then replace symlinks by a listing
+( cd "$root" && find . -printf '%M %u:%g %p\n' | sort -k3 ) > "$stage/PERMISSIONS.txt"
+( cd "$root" && find . -type l -printf '%p -> %l\n' | sort ) > "$stage/SYMLINKS.txt"
+find "$root" -type l -delete
+mv "$stage/PERMISSIONS.txt" "$stage/SYMLINKS.txt" "$root/"
+
+# 3. Redact secret values in text files
+{ grep -rIlZ '' "$root" || true; } | xargs -0r sed -i -E \
+  -e 's/^([[:space:]]*secret[[:space:]]*=[[:space:]]*).*/\1<REDACTED>/' \
+  -e 's/(Crypt-Password[[:space:]]*:=[[:space:]]*")[^"]*"/\1<REDACTED>"/g' \
+  -e 's/(TOTP-Secret[[:space:]]*:=[[:space:]]*")[^"]*"/\1<REDACTED>"/g' \
+  -e 's/((client_secret|_PASSWORD|_SECRET)[[:space:]]*[:=][[:space:]]*)[^$[:space:]].*/\1<REDACTED>/'
+
+# 4. Refuse to produce an archive if secret material is still present.
+#    A crypt hash only counts when salt characters follow the prefix, so scripts
+#    that merely mention the prefix (ztna-radius-passwd) are not flagged.
+if grep -rIlE 'PRIVATE KEY|\$(6|y|2b)\$[./A-Za-z0-9=$]{8,}' "$root"; then
+    echo "ABORT: secret material left in the files listed above" >&2; exit 1
+fi
+
+if [ "$out" = "-" ]; then
+    tar -C "$stage" -czf - "$host"
+else
+    tar -C "$stage" -czf "$out" "$host"
+    chown "${SUDO_USER:-root}": "$out"; chmod 600 "$out"
+    echo "$out"
+fi

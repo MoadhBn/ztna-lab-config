@@ -147,6 +147,14 @@
 			<subnet>24</subnet>
 			<spoofmac></spoofmac>
 		</opt4>
+		<opt5>
+			<descr><![CDATA[SEC]]></descr>
+			<if>vtnet6</if>
+			<enable></enable>
+			<spoofmac></spoofmac>
+			<ipaddr>10.10.60.1</ipaddr>
+			<subnet>24</subnet>
+		</opt5>
 	</interfaces>
 	<staticroutes></staticroutes>
 	<dhcpd>
@@ -404,7 +412,7 @@
 		<rule>
 			<id></id>
 			<tracker>1790519767</tracker>
-			<type>reject</type>
+			<type>block</type>
 			<interface>openvpn</interface>
 			<ipprotocol>inet</ipprotocol>
 			<tag></tag>
@@ -425,14 +433,14 @@
 			</destination>
 			<log></log>
 			<descr></descr>
-			<updated>
-				<time>1790519767</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
-			</updated>
 			<created>
 				<time>1790519767</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
+			<updated>
+				<time>1791484725</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -466,41 +474,6 @@
 			</updated>
 			<created>
 				<time>1790258979</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
-			</created>
-		</rule>
-		<rule>
-			<id></id>
-			<tracker>1790258965</tracker>
-			<type>pass</type>
-			<interface>wan</interface>
-			<ipprotocol>inet</ipprotocol>
-			<tag></tag>
-			<tagged></tagged>
-			<max></max>
-			<max-src-nodes></max-src-nodes>
-			<max-src-conn></max-src-conn>
-			<max-src-states></max-src-states>
-			<statetimeout></statetimeout>
-			<statepolicy></statepolicy>
-			<statetype><![CDATA[keep state]]></statetype>
-			<os></os>
-			<protocol>tcp</protocol>
-			<source>
-				<address>ADMIN_PC</address>
-			</source>
-			<destination>
-				<network>(self)</network>
-				<port>443</port>
-			</destination>
-			<log></log>
-			<descr><![CDATA[Lab-only: admin GUI from ADMIN_PC]]></descr>
-			<updated>
-				<time>1790258965</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
-			</updated>
-			<created>
-				<time>1790258965</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
 			</created>
 		</rule>
@@ -827,15 +800,15 @@
 				<any></any>
 			</destination>
 			<log></log>
-			<descr></descr>
-			<updated>
-				<time>1790338518</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
-			</updated>
+			<descr><![CDATA[Default deny IT]]></descr>
 			<created>
 				<time>1790338518</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
 			</created>
+			<updated>
+				<time>1791484834</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -1032,15 +1005,15 @@
 				<any></any>
 			</destination>
 			<log></log>
-			<descr></descr>
-			<updated>
-				<time>1790335182</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
-			</updated>
+			<descr><![CDATA[Default deny HR]]></descr>
 			<created>
 				<time>1790335182</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
 			</created>
+			<updated>
+				<time>1791484847</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -1237,15 +1210,15 @@
 				<any></any>
 			</destination>
 			<log></log>
-			<descr></descr>
-			<updated>
-				<time>1790335683</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
-			</updated>
+			<descr><![CDATA[Default deny FIN]]></descr>
 			<created>
 				<time>1790335683</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
 			</created>
+			<updated>
+				<time>1791484858</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -1442,15 +1415,15 @@
 				<any></any>
 			</destination>
 			<log></log>
-			<descr></descr>
-			<updated>
-				<time>1790519579</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
-			</updated>
+			<descr><![CDATA[Default deny REMOTE]]></descr>
 			<created>
 				<time>1790519579</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
+			<updated>
+				<time>1791484877</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -1648,14 +1621,150 @@
 				<any></any>
 			</destination>
 			<log></log>
-			<descr></descr>
-			<updated>
-				<time>1790338779</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
-			</updated>
+			<descr><![CDATA[Default deny DMZ]]></descr>
 			<created>
 				<time>1790338779</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
+			</created>
+			<updated>
+				<time>1791484868</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1791486267</tracker>
+			<type>pass</type>
+			<interface>opt5</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp/udp</protocol>
+			<source>
+				<network>opt5</network>
+			</source>
+			<destination>
+				<network>(self)</network>
+				<port>53</port>
+			</destination>
+			<descr></descr>
+			<updated>
+				<time>1791486267</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+			<created>
+				<time>1791486267</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1791486321</tracker>
+			<type>pass</type>
+			<interface>opt5</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>udp</protocol>
+			<source>
+				<network>opt5</network>
+			</source>
+			<destination>
+				<address>NTP_SERVER</address>
+				<port>123</port>
+			</destination>
+			<descr></descr>
+			<updated>
+				<time>1791486321</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+			<created>
+				<time>1791486321</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1791486359</tracker>
+			<type>pass</type>
+			<interface>opt5</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp</protocol>
+			<source>
+				<network>opt5</network>
+			</source>
+			<destination>
+				<address>PRIVATE_NETS</address>
+				<not></not>
+				<port>PORT_WEB</port>
+			</destination>
+			<descr></descr>
+			<updated>
+				<time>1791486359</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+			<created>
+				<time>1791486359</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1791486375</tracker>
+			<type>block</type>
+			<interface>opt5</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<source>
+				<any></any>
+			</source>
+			<destination>
+				<any></any>
+			</destination>
+			<log></log>
+			<descr></descr>
+			<updated>
+				<time>1791486375</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+			<created>
+				<time>1791486375</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
 		</rule>
 		<separator>
@@ -1749,6 +1858,27 @@
 			<address>192.168.78.10</address>
 			<descr><![CDATA[Lab time authority (EVE-NG host)]]></descr>
 			<detail><![CDATA[Entry added Wed, 30 Sep 2026 12:28:00 +0100]]></detail>
+		</alias>
+		<alias>
+			<name>PAM_SERVER</name>
+			<type>host</type>
+			<address>10.10.60.10</address>
+			<descr><![CDATA[Warpgate priviliged gateway]]></descr>
+			<detail><![CDATA[Entry added Thu, 08 Oct 2026 19:59:47 +0100]]></detail>
+		</alias>
+		<alias>
+			<name>VAULT_SERVER</name>
+			<type>host</type>
+			<address>10.10.60.20</address>
+			<descr><![CDATA[Vault secrets manager]]></descr>
+			<detail><![CDATA[Entry added Thu, 08 Oct 2026 20:00:16 +0100]]></detail>
+		</alias>
+		<alias>
+			<name>WAZUH_SERVER</name>
+			<type>host</type>
+			<address>10.10.60.30</address>
+			<descr><![CDATA[Wazuh SIEM]]></descr>
+			<detail><![CDATA[Entry added Thu, 08 Oct 2026 20:00:49 +0100]]></detail>
 		</alias>
 	</aliases>
 	<proxyarp></proxyarp>
@@ -1911,7 +2041,7 @@
 			<create_gw>both</create_gw>
 			<verbosity_level>1</verbosity_level>
 			<data_ciphers>AES-256-GCM,CHACHA20-POLY1305</data_ciphers>
-			<data_ciphers_fallback>AES-256-CBC</data_ciphers_fallback>
+			<data_ciphers_fallback>AES-256-GCM</data_ciphers_fallback>
 			<ping_method>keepalive</ping_method>
 			<keepalive_interval>10</keepalive_interval>
 			<keepalive_timeout>60</keepalive_timeout>
@@ -1955,12 +2085,33 @@
 			<descr><![CDATA[HR application]]></descr>
 			<aliases></aliases>
 		</hosts>
+		<hosts>
+			<host>pam</host>
+			<domain>ztna.lab</domain>
+			<ip>10.10.60.10</ip>
+			<descr></descr>
+			<aliases></aliases>
+		</hosts>
+		<hosts>
+			<host>vault</host>
+			<domain>ztna.lab</domain>
+			<ip>10.10.60.20</ip>
+			<descr></descr>
+			<aliases></aliases>
+		</hosts>
+		<hosts>
+			<host>wazuh</host>
+			<domain>ztna.lab</domain>
+			<ip>10.10.60.30</ip>
+			<descr></descr>
+			<aliases></aliases>
+		</hosts>
 	</unbound>
 	<vlans></vlans>
 	<qinqs></qinqs>
 	<revision>
-		<time>1791474528</time>
-		<description><![CDATA[admin@192.168.78.1 (Local Database Fallback): Updated OpenVPN server on :1194 ]]></description>
+		<time>1791489381</time>
+		<description><![CDATA[admin@192.168.78.1 (Local Database Fallback): Interfaces settings changed]]></description>
 		<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 	</revision>
 	<gateways>
@@ -2103,7 +2254,8 @@
 			<url>/system_patches.php</url>
 		</menu>
 	</installedpackages>
-	<ppps></ppps>
+	<ppps>
+	</ppps>
 	<ca>
 		<refid>6ab922aa19076</refid>
 		<descr><![CDATA[ZTNA-Lab-CA]]></descr>
