@@ -1,0 +1,142 @@
+name: ztna
+
+services:
+  db:
+    image: postgres:16-alpine@sha256:721873c34ceb9f8d8fc265984940dc982404c105f19ad51be9fdc5970a6080ea
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - kc-db:/var/lib/postgresql/data
+    networks: [db-net]
+    mem_limit: 256m
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3@sha256:357829ec7c4693397533035092ad13b0644bcc95ded311f33a3738c4d9e9bdba
+    command: start
+    restart: unless-stopped
+    depends_on: [db]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${DB_PASSWORD}
+      KC_HOSTNAME: https://auth.ztna.lab
+      KC_SPI_EVENTS_LISTENER_JBOSS_LOGGING_SUCCESS_LEVEL: info
+      KC_HTTP_ENABLED: "true"
+      KC_PROXY_HEADERS: xforwarded
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_ADMIN_PASSWORD}
+      JAVA_OPTS_KC_HEAP: "-XX:MaxRAMPercentage=70 -XX:InitialRAMPercentage=30"
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks: [front, db-net]
+    mem_limit: 1g
+    logging:
+      driver: journald
+      options:
+        tag: keycloak
+
+  hr-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0@sha256:dcb6ff8dd21bf3058f6a22c6fa385fa5b897a9cd3914c88a2cc2bb0a85f8065d
+    restart: unless-stopped
+    environment:
+      OAUTH2_PROXY_PROVIDER: keycloak-oidc
+      OAUTH2_PROXY_SCOPE: "openid email profile"
+      OAUTH2_PROXY_OIDC_ISSUER_URL: https://auth.ztna.lab/realms/ztna
+      OAUTH2_PROXY_PROVIDER_CA_FILES: /etc/ztna/ztna-ca.crt
+      OAUTH2_PROXY_CLIENT_ID: hr-app
+      OAUTH2_PROXY_CLIENT_SECRET: ${HR_CLIENT_SECRET}
+      OAUTH2_PROXY_REDIRECT_URL: https://hr.ztna.lab/oauth2/callback
+      OAUTH2_PROXY_ALLOWED_GROUPS: /hr
+      OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+      OAUTH2_PROXY_UPSTREAMS: http://hr-app:80
+      OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:4180
+      OAUTH2_PROXY_REVERSE_PROXY: "true"
+      OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
+      OAUTH2_PROXY_COOKIE_NAME: _ztna_hr
+      OAUTH2_PROXY_COOKIE_SECRET: ${HR_COOKIE_SECRET}
+      OAUTH2_PROXY_COOKIE_SECURE: "true"
+      OAUTH2_PROXY_COOKIE_REFRESH: 1m
+      OAUTH2_PROXY_COOKIE_EXPIRE: 8h
+      OAUTH2_PROXY_PASS_USER_HEADERS: "true"
+      OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
+    volumes:
+      - /etc/ssl/ztna/ztna-ca.crt:/etc/ztna/ztna-ca.crt:ro
+    extra_hosts:
+      - "auth.ztna.lab:172.16.0.10"
+    ports:
+      - "127.0.0.1:4180:4180"
+    networks: [front, hr-net]
+    mem_limit: 64m
+    logging:
+      driver: journald
+      options:
+        tag: hr-proxy
+
+  fin-proxy:
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0@sha256:dcb6ff8dd21bf3058f6a22c6fa385fa5b897a9cd3914c88a2cc2bb0a85f8065d
+    restart: unless-stopped
+    environment:
+      OAUTH2_PROXY_PROVIDER: keycloak-oidc
+      OAUTH2_PROXY_SCOPE: "openid email profile"
+      OAUTH2_PROXY_OIDC_ISSUER_URL: https://auth.ztna.lab/realms/ztna
+      OAUTH2_PROXY_PROVIDER_CA_FILES: /etc/ztna/ztna-ca.crt
+      OAUTH2_PROXY_CLIENT_ID: fin-app
+      OAUTH2_PROXY_CLIENT_SECRET: ${FIN_CLIENT_SECRET}
+      OAUTH2_PROXY_REDIRECT_URL: https://fin.ztna.lab/oauth2/callback
+      OAUTH2_PROXY_ALLOWED_GROUPS: /fin
+      OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+      OAUTH2_PROXY_UPSTREAMS: http://fin-app:80
+      OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:4180
+      OAUTH2_PROXY_REVERSE_PROXY: "true"
+      OAUTH2_PROXY_CODE_CHALLENGE_METHOD: S256
+      OAUTH2_PROXY_COOKIE_NAME: _ztna_fin
+      OAUTH2_PROXY_COOKIE_SECRET: ${FIN_COOKIE_SECRET}
+      OAUTH2_PROXY_COOKIE_SECURE: "true"
+      OAUTH2_PROXY_COOKIE_REFRESH: 1m
+      OAUTH2_PROXY_COOKIE_EXPIRE: 8h
+      OAUTH2_PROXY_PASS_USER_HEADERS: "true"
+      OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: "true"
+    volumes:
+      - /etc/ssl/ztna/ztna-ca.crt:/etc/ztna/ztna-ca.crt:ro
+    extra_hosts:
+      - "auth.ztna.lab:172.16.0.10"
+    ports:
+      - "127.0.0.1:4181:4180"
+    networks: [front, fin-net]
+    mem_limit: 64m
+    logging:
+      driver: journald
+      options:
+        tag: fin-proxy
+
+  hr-app:
+    image: traefik/whoami:v1.10@sha256:1699d99cb4b9acc17f74ca670b3d8d0b7ba27c948b3445f0593b58ebece92f04
+    restart: unless-stopped
+    environment:
+      WHOAMI_NAME: HR-application
+    networks: [hr-net]
+    mem_limit: 32m
+
+  fin-app:
+    image: traefik/whoami:v1.10@sha256:1699d99cb4b9acc17f74ca670b3d8d0b7ba27c948b3445f0593b58ebece92f04
+    restart: unless-stopped
+    environment:
+      WHOAMI_NAME: FIN-application
+    networks: [fin-net]
+    mem_limit: 32m
+
+networks:
+  front: {}
+  db-net:
+    internal: true
+  hr-net:
+    internal: true
+  fin-net:
+    internal: true
+
+volumes:
+  kc-db: {}

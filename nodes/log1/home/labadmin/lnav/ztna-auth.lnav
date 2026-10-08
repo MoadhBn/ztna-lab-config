@@ -1,0 +1,3 @@
+# ZTNA lnav authentication view: only identity and access events
+:filter-in radiusd|freeradius|ztna-detect|openvpn|keycloak|hr-proxy|fin-proxy|nginx|sshd|sudo:|Login|LOGIN|UFW BLOCK
+:filter-out type="REFRESH_TOKEN"

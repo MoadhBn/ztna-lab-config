@@ -1,0 +1,17 @@
+#!/bin/bash
+# ztna-radius-passwd USER - give USER a new unique SHA-512-crypt password in the FreeRADIUS users file.
+# The password is read twice without echo and never appears on a command line, in history or in logs.
+set -euo pipefail
+F=/etc/freeradius/3.0/mods-config/files/authorize
+ROUNDS=100000
+u=${1:?usage: ztna-radius-passwd USER}
+grep -qE "^${u}[[:space:]].*Crypt-Password" "$F" || { echo "No Crypt-Password line for $u" >&2; exit 1; }
+read -rsp "New RADIUS password for $u: " p1; echo
+read -rsp "Repeat: " p2; echo
+[ "$p1" = "$p2" ] || { echo "Passwords differ, nothing changed" >&2; exit 1; }
+[ ${#p1} -ge 12 ] || { echo "Too short (minimum 12), nothing changed" >&2; exit 1; }
+h=$(printf '%s' "$p1" | mkpasswd -m sha-512 -R "$ROUNDS" --stdin)   # random salt each time
+unset p1 p2
+case "$h" in '$6$'*) ;; *) echo "mkpasswd failed, nothing changed" >&2; exit 1 ;; esac
+sed -i -E "s|^(${u}[[:space:]].*Crypt-Password[[:space:]]*:=[[:space:]]*\")[^\"]*(\")|\1${h}\2|" "$F"
+grep -qF "$h" "$F" && echo "OK: $u updated (hash not shown)" || { echo "Replace failed" >&2; exit 1; }

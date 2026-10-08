@@ -1,0 +1,52 @@
+# Bare IP or unknown name: refuse the TLS handshake (reveals nothing)
+server {
+    listen 443 ssl default_server;
+    server_name _;
+    ssl_reject_handshake on;
+}
+
+# Identity provider
+server {
+    listen 443 ssl;
+    server_name auth.ztna.lab;
+    include snippets/ztna-common.conf;
+
+    # Admin plane: IT admins only (VPN_IT range + jump host IT1)
+    location ~ ^/(admin|realms/master)(/|$) {
+        allow 10.10.50.48/28;
+        allow 10.10.30.10;
+        deny  all;
+        proxy_pass http://127.0.0.1:8080;
+    }
+    location / {
+        proxy_pass http://127.0.0.1:8080;
+    }
+}
+
+# HR application -> its PEP
+# Context rule: only the HR office segment and HR VPN users may even reach it
+server {
+    listen 443 ssl;
+    server_name hr.ztna.lab;
+    include snippets/ztna-common.conf;
+
+    allow 10.10.10.0/24;     # HR office segment
+    allow 10.10.50.16/28;    # VPN_HR (sofien, ramez)
+    deny  all;
+
+    location / { proxy_pass http://127.0.0.1:4180; }
+}
+
+# Finance application -> its PEP
+# Context rule: only the FIN office segment and FIN VPN users may even reach it
+server {
+    listen 443 ssl;
+    server_name fin.ztna.lab;
+    include snippets/ztna-common.conf;
+
+    allow 10.10.20.0/24;     # FIN office segment
+    allow 10.10.50.32/28;    # VPN_FIN (rayen, ranim)
+    deny  all;
+
+    location / { proxy_pass http://127.0.0.1:4181; }
+}

@@ -1,0 +1,7 @@
+*.key
+*.env
+.env
+*.tgz
+incoming/
+*.p12
+*.pfx

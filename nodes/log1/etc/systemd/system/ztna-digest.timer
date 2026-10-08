@@ -1,0 +1,9 @@
+[Unit]
+Description=Refresh the ZTNA daily digest every hour
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target

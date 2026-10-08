@@ -1,0 +1,6 @@
+# ZTNA lnav view: hide routine noise (lines are hidden in the view, never deleted)
+:filter-out /usr/sbin/newsyslog
+:filter-out sysstat-collect\.service
+:filter-out pam_unix\(sudo:session\)
+:filter-out fwupd
+:filter-out type="REFRESH_TOKEN"

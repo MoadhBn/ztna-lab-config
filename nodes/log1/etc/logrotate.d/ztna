@@ -1,0 +1,13 @@
+/var/log/ztna/*.log /var/log/ztna/*/*.log {
+    su syslog adm
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    sharedscripts
+    postrotate
+        /usr/lib/rsyslog/rsyslog-rotate
+    endscript
+}

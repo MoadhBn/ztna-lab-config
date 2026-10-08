@@ -1,0 +1,1 @@
+./etc/nginx/sites-enabled/ztna -> /etc/nginx/sites-available/ztna

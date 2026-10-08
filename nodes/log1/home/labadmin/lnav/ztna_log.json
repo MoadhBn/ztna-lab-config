@@ -1,0 +1,53 @@
+{
+  "$schema": "https://lnav.org/schemas/format-v1.schema.json",
+  "ztna_log": {
+    "title": "ZTNA collector (LOG1)",
+    "description": "LOG1 rsyslog collector lines: event time, optional rcv= reception time (since E-pre), host, program, message.",
+    "file-pattern": "/var/log/ztna/all\\.log.*",
+    "timestamp-format": [
+      "%Y-%m-%dT%H:%M:%S.%f%z",
+      "%Y-%m-%dT%H:%M:%S%z"
+    ],
+    "regex": {
+      "filterlog": {
+        "pattern": "^(?<timestamp>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2}))(?: rcv=(?<rcv>\\S+))? (?<host>\\S+) (?<prog>filterlog)(?:\\[(?<pid>\\d+)\\])?:? (?<body>(?<rule>\\d*),[^,]*,[^,]*,(?<tracker>\\d*),(?<iface>[^,]*),(?<reason>[^,]*),(?<action>[^,]*),(?<dir>[^,]*),4,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,[^,]*,(?<proto>[^,]*),[^,]*,(?<src>[^,]*),(?<dst>[^,]*)(?:,(?<sport>\\d+),(?<dport>\\d+))?.*)$"
+      },
+      "std": {
+        "pattern": "^(?<timestamp>\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2}))(?: rcv=(?<rcv>\\S+))? (?<host>\\S+) (?<prog>(?!filterlog)[^\\[: ]+)(?:\\[(?<pid>\\d+)\\])?:? ?(?<body>.*)$"
+      }
+    },
+    "level-field": "body",
+    "level": {
+      "error": "Login incorrect|Invalid user|LOGIN_ERROR|\\[UFW BLOCK\\]|authentication failure|Failed password|Permission denied|ALERT R[0-9]",
+      "warning": "^\\d*,[^,]*,[^,]*,\\d*,[^,]*,[^,]*,block,|WARN|[Ww]arning|[Dd]enied"
+    },
+    "value": {
+      "rcv":     { "kind": "string",  "hidden": true },
+      "host":    { "kind": "string",  "identifier": true },
+      "prog":    { "kind": "string",  "identifier": true },
+      "pid":     { "kind": "integer", "hidden": true },
+      "rule":    { "kind": "integer" },
+      "tracker": { "kind": "integer", "identifier": true },
+      "iface":   { "kind": "string",  "identifier": true },
+      "reason":  { "kind": "string" },
+      "action":  { "kind": "string",  "identifier": true },
+      "dir":     { "kind": "string" },
+      "proto":   { "kind": "string",  "identifier": true },
+      "src":     { "kind": "string",  "identifier": true, "collate": "ipaddress" },
+      "dst":     { "kind": "string",  "identifier": true, "collate": "ipaddress" },
+      "sport":   { "kind": "integer" },
+      "dport":   { "kind": "integer", "identifier": true }
+    },
+    "highlights": {
+      "success": { "pattern": "Login OK|type=\"LOGIN\"|Accepted publickey|authenticated successfully", "color": "#5faf00" },
+      "blocked": { "pattern": ",block,|\\[UFW BLOCK\\]", "color": "#d70000" }
+    },
+    "sample": [
+      { "line": "2026-10-03T19:26:00.692659+01:00 rcv=2026-10-04T15:53:21.673459+01:00 fw1.ztna.lab filterlog[26926] 1,6,,1000000103,vtnet0,match,block,in,4,0x0,,128,3646,0,none,17,udp,78,192.168.78.1,192.168.78.20,137,137,58" },
+      { "line": "2026-10-04T16:40:06.623140+01:00 rcv=2026-10-04T16:40:06.636933+01:00 radius1 systemd[1] Starting sysstat-collect.service - system activity accounting tool..." },
+      { "line": "2026-10-04T16:42:47.108204+01:00 rcv=2026-10-04T16:42:47.108204+01:00 log1 sudo: labadmin : TTY=/dev/ttyS0 ; PWD=/home/labadmin ; USER=root ; COMMAND=/usr/bin/ls /var/log/ztna/" },
+      { "line": "2026-10-03T20:00:00.015405+01:00 rcv=2026-10-04T16:38:39.559089+01:00 fw1.ztna.lab /usr/sbin/cron[41764] (root) CMD (/usr/sbin/newsyslog)" },
+      { "line": "2026-10-04T12:56:52.824056+01:00 appserver 50-motd-news[7212]:  * Canonical Workshop gives developer" }
+    ]
+  }
+}

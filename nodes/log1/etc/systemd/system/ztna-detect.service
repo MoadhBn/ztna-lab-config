@@ -1,0 +1,16 @@
+[Unit]
+Description=ZTNA detection rules R1-R7 over the LOG1 collector
+
+[Service]
+Type=oneshot
+User=ztnadetect
+Group=adm
+UMask=0027
+ExecStart=/usr/local/bin/ztna-detect.sh
+# Least privilege: the whole system is read-only for this service,
+# except its own state and alert directories
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/ztna-detect /var/log/ztna-detect

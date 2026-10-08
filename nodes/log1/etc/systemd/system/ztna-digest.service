@@ -1,0 +1,14 @@
+[Unit]
+Description=ZTNA daily digest (readable summary of logs and alerts)
+
+[Service]
+Type=oneshot
+User=ztnadetect
+Group=adm
+UMask=0027
+ExecStart=/usr/local/bin/ztna-digest.sh
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/var/lib/ztna-detect /var/log/ztna-detect
