@@ -4,7 +4,7 @@ Updated at the end of every phase. This file, the repository and the two LaTeX d
 (`report.tex`, `technical_documentation.tex`) are the record of the project; it does not
 depend on any chat transcript.
 
-Last update: 2026-10-08 (Phase 0 complete, Phase 1 in progress).
+Last update: 2026-10-17 (Extension Phases 0 and 1 complete; Extension Phase 2 not started). Phase-by-phase records of the whole project: [docs/](docs/README.md). The roadmap below uses the extension phase numbers.
 
 ## What exists
 
@@ -22,7 +22,7 @@ Last update: 2026-10-08 (Phase 0 complete, Phase 1 in progress).
 | Phase | Content | State |
 |---|---|---|
 | 0 | Baseline: repository, backups, host identity check | Done, commit `3197fca` |
-| 1 | SEC segment 10.10.60.0/24 (FW1 `vtnet6`, EVE Cloud2, VMware VMnet3), PAM1 base host | FW1 side verified from the exported config; PAM1 tests reported done, outputs not recorded |
+| 1 | SEC segment 10.10.60.0/24 (FW1 `vtnet6`, EVE Cloud2, VMware VMnet3), PAM1 base host | Done, commit `53619eb` (PAM1 test outputs not recorded) |
 | 2 | Warpgate on PAM1 (10.10.60.10): Keycloak SSO, role `ops`, SSH and web targets, recording | Not started |
 | 3 | Enforce PAM: remove direct SSH and GUI paths, Warpgate only | Not started |
 | 4 | Vault on VAULT1 (10.10.60.20): KV secrets, SSH CA for the backup job, break-glass, Transit | Not started |
