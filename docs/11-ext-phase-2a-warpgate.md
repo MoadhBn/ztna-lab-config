@@ -1,7 +1,6 @@
 # Extension Phase 2A: Warpgate, Keycloak SSO, first SSH target
 
-**Date:** 24 to 30 October 2026. **Commit:** the commit that adds this file. **State:** done;
-some evidence still owed (listed at the end). Design context: [08-extension-design.md](08-extension-design.md).
+**Date:** 24 to 30 October 2026. **Commit:** `b31d53b` (evidence added in the next commit). **State:** done. Design context: [08-extension-design.md](08-extension-design.md).
 
 Extension Phase 2 is split in two. **2A** builds the gateway and proves one complete
 privileged path end to end. **2B** adds the other targets, approvals and the web targets.
@@ -72,6 +71,7 @@ All rows **Verified** in `nodes/fw1/config-redacted.xml`.
 |---|---|
 | Client `warpgate` | Confidential, standard flow only, redirect URI `https://pam.ztna.lab/@warpgate/api/sso/return` |
 | PKCE | `S256` (reported) |
+| User `itadmin@ztna.lab` | Already existed in the realm (group `it-admins`); not created for this phase |
 | Mapper `groups` | Group Membership, full path off, so the claim says `it-admins`, not `/it-admins` |
 
 ### Warpgate objects (admin UI)
@@ -101,11 +101,11 @@ All rows **Verified** in `nodes/fw1/config-redacted.xml`.
 | AppServer log on LOG1 | `Accepted publickey for pamops from 10.10.60.10 … ED25519 SHA256:ZyENO54S…` and the sudo line for `/usr/bin/id` | **Verified** (24 October) |
 | Key in `pamops`'s `authorized_keys` | Fingerprint `ZyENO54SVtc/gM0crh22i8NtDICSDjCvlFL4SQhw4u0`, the one recorded in the inventory | **Verified** in the export |
 | Command audit | Warpgate's session log lists `id` and `exit` with their times | **Verified** |
-| Recording | One folder per session under `/var/lib/warpgate/recordings/`; replay available | Folder **Verified**; replay playback reported |
-| Certificate served by Warpgate | Chain to the lab CA, name `pam.ztna.lab` | **Verified** on PAM1 (`curl` with the system trust store reached HTTP, status 401 = not logged in; `openssl verify` of the exported certificate: OK). Windows browser: owed |
+| Recording | One folder per session under `/var/lib/warpgate/recordings/`; replay plays in the admin UI | **Verified** (folders listed on PAM1; replay of the 16:22 session of 30 October played as `admin`) |
+| Certificate served by Warpgate | Chain to the lab CA, name `pam.ztna.lab` | **Verified**: on PAM1 (`curl` with the system trust store reached HTTP, status 401 = not logged in; `openssl verify` of the exported certificate: OK) and in the Windows browser (no warning; issued to `pam.ztna.lab` by `ztna-lab-ca`; SHA-256 `3e2a97b4…824db6`, identical to the exported `pam.crt`) |
 | `ssh -l pamops 172.16.0.10` from IT1 | `Permission denied (publickey)` | **Verified** |
-| sofien (group `hr`) reaches PAM1 over the VPN | Blocked by FW1, block line on LOG1 | Owed |
-| sofien logs in to Warpgate through Keycloak | Refused, no role | Owed |
+| sofien (group `hr`, VPN 10.10.50.17) opens `https://pam.ztna.lab` | Blocked by FW1, block line on LOG1 | **Verified**: `filterlog … 1790519767,ovpns1,match,block,in,4 … tcp … 10.10.50.17,10.10.60.10,64842,443 … S` (30 October 18:29); tracker `1790519767` is the rule `Default deny VPN` |
+| sofien authenticates in Keycloak and is sent to Warpgate (from an itadmin VPN connection) | Refused by Warpgate | **Verified**: "No user matching sofien@ztna.lab". Keycloak accepted the person; Warpgate refused because no Warpgate user is linked to that e-mail. Even with a user, the role mapping would give no role: sofien is not in `it-admins` |
 
 ## Problems met and how they were solved
 
@@ -113,8 +113,8 @@ All rows **Verified** in `nodes/fw1/config-redacted.xml`.
 |---|---|---|
 | `warpgate --version` failed | The subcommand is `version` | `warpgate version` |
 | `warpgate setup` failed | The data directory did not exist | `sudo install -d -m 700 /var/lib/warpgate`, then setup again |
-| SSO login: "No user matching itadmin@ztna.lab" | Warpgate links an SSO login to an existing Warpgate user by verified e-mail; with auto-create off it creates no user | End state: Warpgate user `itadmin` with an SSO credential for `itadmin@ztna.lab`. The exact step that cleared the error was not recorded |
-| The Keycloak client secret was typed on a command line once | It ended up in the shell history and the PuTTY log | Regenerate the secret in Keycloak, update `warpgate.yaml`, delete the history entry and the log (state: see "Still open") |
+| SSO login: "No user matching itadmin@ztna.lab" | Warpgate links an SSO login to an existing Warpgate user by verified e-mail; with auto-create off it creates no user | The Warpgate user `itadmin` was created, with an SSO credential for `itadmin@ztna.lab` |
+| The Keycloak client secret was typed on a command line once | It ended up in the shell history and the PuTTY log | Secret regenerated in Keycloak and the new value set in `warpgate.yaml` (reported); the old value left in the history and the log no longer works |
 | Warpgate offered both ed25519 and RSA default keys | "Use default keys" lists both | The ed25519 key selected explicitly; it is the only key trusted on AppServer |
 | The browser received Warpgate's self-signed certificate | `http.certificate`/`http.key` still pointed to the files generated by `warpgate setup` | Paths changed to `/etc/warpgate-tls/pam.crt` and `pam.key` in every protocol section, service restarted |
 | The Warpgate web page reloaded in a loop after a restart | Not identified | Cleared without a configuration change |
@@ -147,9 +147,8 @@ All rows **Verified** in `nodes/fw1/config-redacted.xml`.
 
 ## Still open after this phase
 
-- Evidence: FW1 block line for sofien → PAM1 on LOG1, Warpgate's refusal of sofien, the Windows
-  certificate dialog, replay playback.
-- Confirm that the exposed Keycloak client secret was regenerated, and that PKCE is `S256`.
+- The replay shown was of a short session without commands; the replay of a session showing a
+  command and its output is captured in Extension Phase 2B with the other targets.
 - Remove the old `phase0-export` line on RADIUS1 and LOG1 (the key can no longer be unlocked).
 - Temporary exceptions added in this phase, closed in Extension Phase 3: ufw rule 22 from
   `10.10.50.49` on PAM1 and the `ztna-export` key in labadmin's `authorized_keys` on PAM1.

@@ -24,7 +24,7 @@ Last update: 2026-10-30 (Extension Phase 2A complete; Phase 2B not started). Pha
 |---|---|---|
 | 0 | Baseline: repository, backups, host identity check | Done, commit `3197fca` |
 | 1 | SEC segment 10.10.60.0/24 (FW1 `vtnet6`, EVE Cloud2, VMware VMnet3), PAM1 base host | Done, commit `53619eb` (PAM1 test outputs not recorded) |
-| 2A | Warpgate on PAM1 (10.10.60.10): Keycloak SSO, role `ops`, first SSH target AppServer, recording | Done ([docs/11](docs/11-ext-phase-2a-warpgate.md)); some evidence owed |
+| 2A | Warpgate on PAM1 (10.10.60.10): Keycloak SSO, role `ops`, first SSH target AppServer, recording | Done, commit `b31d53b` ([docs/11](docs/11-ext-phase-2a-warpgate.md)) |
 | 2B | Targets RADIUS1 and LOG1, per-session approval for RADIUS1, access tickets, web targets (pfSense GUI, Keycloak `/admin`), negative tests | Not started |
 | 3 | Enforce PAM: remove direct SSH and GUI paths, Warpgate only | Not started |
 | 4 | Vault on VAULT1 (10.10.60.20): KV secrets, SSH CA (Warpgate targets and the backup job), break-glass, Transit | Not started |
@@ -82,7 +82,3 @@ change, the CRL refusal line (`VERIFY ERROR ... certificate revoked`), time sync
 node, detection triggers R1-R7, the syslog queue outage test, Keycloak lockout and
 mid-session revocation, the Phase 4 VPN tests, the Extension Phase 1 PAM1 tests, and all
 attack scenarios.
-
-Extension Phase 2A, still to capture: FW1 block line for sofien → PAM1 on LOG1, Warpgate's
-refusal of sofien, the Windows certificate dialog for `pam.ztna.lab`, replay playback;
-confirmation that the exposed Keycloak client secret was regenerated and that PKCE is `S256`.

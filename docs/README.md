@@ -30,7 +30,7 @@ lab, and the **extension phases** 0 to 9 (privileged access, secrets, SIEM, AI t
 | [08-extension-design.md](08-extension-design.md) | The brief, its corrections, the owner's decisions, the roadmap | Done |
 | [09-ext-phase-0-baseline.md](09-ext-phase-0-baseline.md) | Configuration repository, sanitised exports, host identity check | Done |
 | [10-ext-phase-1-sec-segment.md](10-ext-phase-1-sec-segment.md) | SEC segment for the security services, firewall cleanups, PAM1 base host | Done |
-| [11-ext-phase-2a-warpgate.md](11-ext-phase-2a-warpgate.md) | Warpgate on PAM1, Keycloak SSO, first brokered SSH target, recording | Done; some evidence owed |
+| [11-ext-phase-2a-warpgate.md](11-ext-phase-2a-warpgate.md) | Warpgate on PAM1, Keycloak SSO, first brokered SSH target, recording | Done |
 | Extension Phases 2B to 9 | Other targets and approvals, enforcement, Vault, backups, audit, Wazuh, AI triage, validation | Not started |
 
 The current overall state and the open items are in [../STATUS.md](../STATUS.md). Every
