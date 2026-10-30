@@ -20,6 +20,13 @@ Get them on a node with:
 | HR1, HR2 | DHCP | not recorded | not recorded | |
 | FIN1, FIN2 | DHCP | not recorded | not recorded | |
 
-The five recorded fingerprints are distinct, and so are the two recorded machine-ids. The
+## Client keys
+
+| Key | Fingerprint (SHA256) | Trusted by | Source |
+|---|---|---|---|
+| Warpgate on PAM1, `client-ed25519` | `ZyENO54SVtc/gM0crh22i8NtDICSDjCvlFL4SQhw4u0` | `pamops` on AppServer, `from="10.10.60.10"` only | AppServer sshd log on LOG1, 2026-10-24; exported `authorized_keys`, 2026-10-30 |
+| Windows export key `ztna-export` (temporary, Extension Phase 3 removes it) | `P1uwJ06zM1+2YCvfOEy65Ar08mOLjReNEQ8ag346au4` | labadmin on AppServer and PAM1, `from="10.10.50.49"` only | `ssh-keygen -lf` on Windows, 2026-10-30 |
+
+The five recorded host fingerprints are distinct, and so are the two recorded machine-ids. The
 duplicate check on the other nodes was run on 2026-10-08 and reported clean; their values
 were not written down.

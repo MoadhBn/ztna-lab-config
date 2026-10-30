@@ -1,0 +1,15 @@
+network:
+  version: 2
+  ethernets:
+    ens3:
+      dhcp4: false
+      addresses:
+        - 10.10.60.10/24
+      routes:
+        - to: default
+          via: 10.10.60.1
+      nameservers:
+        addresses:
+          - 10.10.60.1
+        search:
+          - ztna.lab

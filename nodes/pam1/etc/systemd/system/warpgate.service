@@ -1,0 +1,14 @@
+[Unit]
+Description=Warpgate privileged access gateway
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=notify
+Restart=always
+RestartSec=5
+ExecStart=/usr/local/bin/warpgate --config /etc/warpgate.yaml run
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,86 @@
+# Config generated in version v0.30.0
+# yaml-language-server: $schema=https://raw.githubusercontent.com/warp-tech/warpgate/refs/heads/main/config-schema.json
+
+external_host: pam.ztna.lab
+database_url: sqlite:/var/lib/warpgate/db
+ssh:
+  enable: true
+  listen: 0.0.0.0:2222
+  proxy_protocol: false
+  external_port: null
+  external_host: null
+  host_key_verification: prompt
+  inactivity_timeout: 5m
+  keepalive_interval: null
+  target_handshake_timeout: 30s
+http:
+  listen: 0.0.0.0:443
+  proxy_protocol: false
+  external_port: null
+  external_host: null
+  certificate: /etc/warpgate-tls/pam.crt
+  key: /etc/warpgate-tls/pam.key
+  trust_x_forwarded_headers: false
+  session_max_age: 30m
+  cookie_max_age: 1day
+  sni_certificates: []
+kubernetes:
+  enable: false
+  listen: '[::]:8443'
+  proxy_protocol: false
+  external_port: null
+  external_host: null
+  certificate: /etc/warpgate-tls/pam.crt
+  key: /etc/warpgate-tls/pam.key
+  session_max_age: 30m
+mysql:
+  enable: false
+  listen: '[::]:33306'
+  proxy_protocol: false
+  external_port: null
+  external_host: null
+  certificate: /etc/warpgate-tls/pam.crt
+  key: /etc/warpgate-tls/pam.key
+  advertised_version: 8.0.3-Warpgate
+postgres:
+  enable: false
+  listen: '[::]:55432'
+  proxy_protocol: false
+  external_port: null
+  external_host: null
+  certificate: /etc/warpgate-tls/pam.crt
+  key: /etc/warpgate-tls/pam.key
+vnc:
+  enable: false
+  listen: '[::]:5900'
+  proxy_protocol: false
+  external_port: null
+  external_host: null
+  certificate: /etc/warpgate-tls/pam.crt
+  key: /etc/warpgate-tls/pam.key
+  enable_ard_auth: false
+rdp:
+  enable: false
+  listen: '[::]:3389'
+  proxy_protocol: false
+  external_port: null
+  external_host: null
+  certificate: /etc/warpgate-tls/pam.crt
+  key: /etc/warpgate-tls/pam.key
+log:
+  retention: 7days
+  audit_retention: 11months 30days 3h 50m 24s
+  send_to: null
+  format: text
+sso_providers:
+  - name: keycloak
+    label: ZTNA Keycloak
+    provider:
+      type: custom
+      client_id: warpgate
+      client_secret: <REDACTED>
+      issuer_url: https://auth.ztna.lab/realms/ztna
+      scopes: ["email", "profile"]
+      roles_claim: groups
+      role_mappings:
+        it-admins: ops

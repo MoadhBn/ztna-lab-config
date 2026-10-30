@@ -43,6 +43,8 @@ drwxr-xr-x root:root ./etc/ssl
 drwxr-xr-x root:root ./etc/ssl/ztna
 -rw-r--r-- root:root ./etc/ssl/ztna/appserver.crt
 -rw-r--r-- root:root ./etc/ssl/ztna/ztna-ca.crt
+drwxr-xr-x root:root ./etc/sudoers.d
+-r--r----- root:root ./etc/sudoers.d/90-pamops
 drwxr-xr-x root:root ./etc/ufw
 -rw-r----- root:root ./etc/ufw/user.rules
 drwxr-xr-x root:root ./home
@@ -50,3 +52,6 @@ drwxr-x--- labadmin:labadmin ./home/labadmin
 drwxrwxr-x labadmin:labadmin ./home/labadmin/ztna
 -rw-rw-r-- labadmin:labadmin ./home/labadmin/ztna/docker-compose.yml
 -rw-rw-r-- labadmin:labadmin ./home/labadmin/ztna/pin-images.sh
+drwxr-x--- pamops:pamops ./home/pamops
+drwx------ pamops:pamops ./home/pamops/.ssh
+-rw------- pamops:pamops ./home/pamops/.ssh/authorized_keys

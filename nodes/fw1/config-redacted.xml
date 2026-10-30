@@ -411,6 +411,41 @@
 		</rule>
 		<rule>
 			<id></id>
+			<tracker>1792846903</tracker>
+			<type>pass</type>
+			<interface>openvpn</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp</protocol>
+			<source>
+				<address>VPN_IT</address>
+			</source>
+			<destination>
+				<address>PAM_SERVER</address>
+				<port>PORT_PAM</port>
+			</destination>
+			<log></log>
+			<descr><![CDATA[VPN admins to PAM]]></descr>
+			<updated>
+				<time>1792846903</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+			<created>
+				<time>1792846903</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
 			<tracker>1790519767</tracker>
 			<type>block</type>
 			<interface>openvpn</interface>
@@ -432,13 +467,13 @@
 				<any></any>
 			</destination>
 			<log></log>
-			<descr></descr>
+			<descr><![CDATA[Default deny VPN]]></descr>
 			<created>
 				<time>1790519767</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
 			<updated>
-				<time>1791484725</time>
+				<time>1792847034</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</updated>
 		</rule>
@@ -775,6 +810,41 @@
 			<created>
 				<time>1790338493</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1792846993</tracker>
+			<type>pass</type>
+			<interface>lan</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp</protocol>
+			<source>
+				<address>IT_ADMIN</address>
+			</source>
+			<destination>
+				<address>PAM_SERVER</address>
+				<port>PORT_PAM</port>
+			</destination>
+			<log></log>
+			<descr><![CDATA[IT1 to PAM]]></descr>
+			<updated>
+				<time>1792846993</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+			<created>
+				<time>1792846993</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
 		</rule>
 		<rule>
@@ -1655,15 +1725,15 @@
 				<network>(self)</network>
 				<port>53</port>
 			</destination>
-			<descr></descr>
-			<updated>
-				<time>1791486267</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
-			</updated>
+			<descr><![CDATA[DNS]]></descr>
 			<created>
 				<time>1791486267</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
+			<updated>
+				<time>1792847066</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -1689,15 +1759,15 @@
 				<address>NTP_SERVER</address>
 				<port>123</port>
 			</destination>
-			<descr></descr>
-			<updated>
-				<time>1791486321</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
-			</updated>
+			<descr><![CDATA[Time]]></descr>
 			<created>
 				<time>1791486321</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
+			<updated>
+				<time>1792847076</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -1724,13 +1794,83 @@
 				<not></not>
 				<port>PORT_WEB</port>
 			</destination>
-			<descr></descr>
-			<updated>
+			<descr><![CDATA[Updates]]></descr>
+			<created>
 				<time>1791486359</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</created>
+			<updated>
+				<time>1792847084</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1792846715</tracker>
+			<type>pass</type>
+			<interface>opt5</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp</protocol>
+			<source>
+				<address>PAM_SERVER</address>
+			</source>
+			<destination>
+				<address>APP_SERVER</address>
+				<port>443</port>
+			</destination>
+			<log></log>
+			<descr><![CDATA[PAM1 to Keycloak (OIDC)]]></descr>
+			<updated>
+				<time>1792846715</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</updated>
 			<created>
-				<time>1791486359</time>
+				<time>1792846715</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1792846784</tracker>
+			<type>pass</type>
+			<interface>opt5</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp</protocol>
+			<source>
+				<address>PAM_SERVER</address>
+			</source>
+			<destination>
+				<address>APP_SERVER</address>
+				<port>22</port>
+			</destination>
+			<log></log>
+			<descr><![CDATA[PAM1 brokered SSH]]></descr>
+			<updated>
+				<time>1792846784</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
+			<created>
+				<time>1792846784</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
 		</rule>
@@ -1757,19 +1897,21 @@
 				<any></any>
 			</destination>
 			<log></log>
-			<descr></descr>
-			<updated>
-				<time>1791486375</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
-			</updated>
+			<descr><![CDATA[Default deny SEC]]></descr>
 			<created>
 				<time>1791486375</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
+			<updated>
+				<time>1792847051</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<separator>
 			<openvpn></openvpn>
 			<opt4></opt4>
+			<opt5></opt5>
+			<lan></lan>
 		</separator>
 	</filter>
 	<shaper></shaper>
@@ -1879,6 +2021,20 @@
 			<address>10.10.60.30</address>
 			<descr><![CDATA[Wazuh SIEM]]></descr>
 			<detail><![CDATA[Entry added Thu, 08 Oct 2026 20:00:49 +0100]]></detail>
+		</alias>
+		<alias>
+			<name>PAM_SSH_TARGETS</name>
+			<type>host</type>
+			<address>APP_SERVER RADIUS_SERVER LOG_SERVER</address>
+			<descr><![CDATA[Servers Warpgate may reach]]></descr>
+			<detail><![CDATA[Entry added Sat, 24 Oct 2026 13:55:32 +0100||Entry added Sat, 24 Oct 2026 13:55:32 +0100||Entry added Sat, 24 Oct 2026 13:55:32 +0100]]></detail>
+		</alias>
+		<alias>
+			<name>PORT_PAM</name>
+			<type>port</type>
+			<address>443 2222</address>
+			<descr><![CDATA[Warpgate’s web and SSH entry points]]></descr>
+			<detail><![CDATA[Entry added Sat, 24 Oct 2026 13:56:06 +0100||Entry added Sat, 24 Oct 2026 13:56:06 +0100]]></detail>
 		</alias>
 	</aliases>
 	<proxyarp></proxyarp>
@@ -2013,7 +2169,7 @@
 			<remote_networkv6></remote_networkv6>
 			<gwredir></gwredir>
 			<gwredir6></gwredir6>
-			<local_network>172.16.0.0/24, 10.10.30.20/32</local_network>
+			<local_network>172.16.0.0/24, 10.10.30.20/32, 10.10.60.10/32</local_network>
 			<local_networkv6></local_networkv6>
 			<maxclients></maxclients>
 			<connlimit></connlimit>
@@ -2110,8 +2266,8 @@
 	<vlans></vlans>
 	<qinqs></qinqs>
 	<revision>
-		<time>1791489381</time>
-		<description><![CDATA[admin@192.168.78.1 (Local Database Fallback): Interfaces settings changed]]></description>
+		<time>1792848372</time>
+		<description><![CDATA[admin@192.168.78.1 (Local Database Fallback): Signed certificate pam-web]]></description>
 		<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 	</revision>
 	<gateways>
@@ -2224,6 +2380,14 @@
 		<crt>LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVvRENDQTRpZ0F3SUJBZ0lCQ1RBTkJna3Foa2lHOXcwQkFRc0ZBREIwTVJRd0VnWURWUVFERXd0NmRHNWgKTFd4aFlpMWpZVEVMTUFrR0ExVUVCaE1DVkU0eEVEQU9CZ05WQkFnVEIwSnBlbVZ5ZEdVeEVqQVFCZ05WQkFjVApDVkpoY3lCRWFtSmhiREViTUJrR0ExVUVDaE1TUkdWdWFXMGdRWFYwYUc5eWFYUjVJRk5CTVF3d0NnWURWUVFMCkV3TkpWQ0F3SGhjTk1qWXhNREEzTVRVME1EUXhXaGNOTWpZeE1UQTJNVFUwTURReFdqQndNUkF3RGdZRFZRUUQKRXdkamNteDBaWE4wTVFzd0NRWURWUVFHRXdKVVRqRVFNQTRHQTFVRUNCTUhRbWw2WlhKMFpURVNNQkFHQTFVRQpCeE1KVW1GeklFUnFZbUZzTVJzd0dRWURWUVFLRXhKRVpXNXBiU0JCZFhSb2IzSnBkSGtnVTBFeEREQUtCZ05WCkJBc1RBMGxVSURDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBTjJXQmRLbGdTd3EKd1A4MjhZazRxdkcwa0lqSnNCU2hFNHdKYWJad3Jxc2JkbzJ6VE5RVHNWTitoK09sTm5zajJoTUlwWkllZ3FKSQo5aU0zUmpzb2pEeWFlWTdrVWV2R1VzTUFtQWJWZUhhb0toYzdSWVVKWXhYTS8wTXNPdm1TVUNOOWVSZTFvU1NaCmlKblU3dXRpU3BWZjZRTUhUcnJwVDdLSlRFVEEyWEFabFRqQldGdmxrSU44cFZoVzB2OXRFWE14UTBCT1dZWU8KUXkrcG9sUjZoSlJ4dU5ybVRkRXMyTjUyNnVvdzdEamxZVUhPL3l5aHg3TGo5aERqbks5VVR2WUFucXN3VDNkbApiMjV1U09OandyVlMybkhHSGk4SlZkK2p0QlFMK0d4NXdkWm1RTFNqSWJ5NzF3WFdxK25HWVAxTTBwakhJL21yCkFuSTFxTEZJSFRVQ0F3RUFBYU9DQVQ4d2dnRTdNQWtHQTFVZEV3UUNNQUF3Q3dZRFZSMFBCQVFEQWdYZ01ERUcKQ1dDR1NBR0crRUlCRFFRa0ZpSlBjR1Z1VTFOTUlFZGxibVZ5WVhSbFpDQlZjMlZ5SUVObGNuUnBabWxqWVhSbApNQjBHQTFVZERnUVdCQlNobHBHSUc0akxVL05EM1dKN2NiV01wMGExL2pDQnBRWURWUjBqQklHZE1JR2FnQlMwCm5DZUR5aDh2WHQ0UEdKcjU0eDNDZUwweWVLRjRwSFl3ZERFVU1CSUdBMVVFQXhNTGVuUnVZUzFzWVdJdFkyRXgKQ3pBSkJnTlZCQVlUQWxST01SQXdEZ1lEVlFRSUV3ZENhWHBsY25SbE1SSXdFQVlEVlFRSEV3bFNZWE1nUkdwaQpZV3d4R3pBWkJnTlZCQW9URWtSbGJtbHRJRUYxZEdodmNtbDBlU0JUUVRFTU1Bb0dBMVVFQ3hNRFNWUWdnZ2c3CmFNTGpmSEF2UHpBVEJnTlZIU1VFRERBS0JnZ3JCZ0VGQlFjREFqQVNCZ05WSFJFRUN6QUpnZ2RqY214MFpYTjAKTUEwR0NTcUdTSWIzRFFFQkN3VUFBNElCQVFBaUJ2WDVOZWJGTTdmS0xOa2JFd3RxMWtEYmdoL0RQd0ZLOEdFYwppcjhEWmZvQWU5eHlmaDY3dzFSY3RzVm1yNG96ek9xM2hHVENGNGwybUcwenhsOUxJT3NwcDZVanJIeS8xa2J1CitJV0NWSU9lMWROR2cyb0VTVFNWVnllQUc4M1BhcUtRV3FpVml5amZvbVdnTi80ZUZsd01vbmZwblhPVzRQbnUKQTBmQmo1N25HTzFneno2alBCMlNrdzhZL0F3Mk1sYklhVVlGUDVraWlwSWFBODFDT1Q3MTFIQ0dicXdpdnd2aAp1NTFkNlF6b0Y1R2E2N0xoMzE1QXBvK1dURTVBL2x0TzIybk5yMlE4S3ViZWQ0cGZtTFQ2QnlHd2ZQa3BORDlUCkFHdE5zTUppWlNMTno5UWN3UUxmbDhZckxrQThBeWRDZWZXVWgvY25DRkluQjdwVAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==</crt>
 		<prv>REDACTED</prv>
 	</cert>
+	<cert>
+		<refid>6adcb1f4d8bf4</refid>
+		<caref>6ab922aa19076</caref>
+		<descr><![CDATA[pam-web]]></descr>
+		<type>server</type>
+		<crt>LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVkVENDQTEyZ0F3SUJBZ0lCQ2pBTkJna3Foa2lHOXcwQkFRc0ZBREIwTVJRd0VnWURWUVFERXd0NmRHNWgKTFd4aFlpMWpZVEVMTUFrR0ExVUVCaE1DVkU0eEVEQU9CZ05WQkFnVEIwSnBlbVZ5ZEdVeEVqQVFCZ05WQkFjVApDVkpoY3lCRWFtSmhiREViTUJrR0ExVUVDaE1TUkdWdWFXMGdRWFYwYUc5eWFYUjVJRk5CTVF3d0NnWURWUVFMCkV3TkpWQ0F3SGhjTk1qWXhNREkwTVRNeU5qRXlXaGNOTWpjeE1USTJNVE15TmpFeVdqQVhNUlV3RXdZRFZRUUQKREF4d1lXMHVlblJ1WVM1c1lXSXdnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCQVFDcgpJOGsrakVSTVdRMEUxemQ2M3JMclFBV2hjVlhHaXNubGJ3RHltMHRrUmZMamswbWwzRGNSb1BRWEdMdC9iQUFZCkF3S0dFRlJTcnZ4ZnlZOFF2TWtmNDJqNFBGSmpvQjViSDFHbHN4MWVhTTVUeEpFNTNyRUFLKzhtWWxGcWQrZVcKeG44QXlRZ3F1QzhseVo2cWYrcVJYa29xVFdVNHY5cytSVEVrL09iNTdkSUE4UzRibGQ2WEVuNkU4ZGtrWkxlRQpCN01vMEtPdDIzclhXNkRKa3ZlMWkxYjd4S0R5cmtMZjgzRnBkcUovUW5rMzFENkQwVlJQMGppZmZyNHA3TStwCjZLYlVBbklpTlk4dU1LWEdRNncrak5ZbkJUait5RVAzK1hUNTQySjJXSkxjU1Z2M2RGK0cxZ3JOZ1M2SmwyR3UKV2V1TU1Oejd5NFpLRWR2ekJWNjVBZ01CQUFHamdnRnRNSUlCYVRBSkJnTlZIUk1FQWpBQU1CRUdDV0NHU0FHRworRUlCQVFRRUF3SUdRREFMQmdOVkhROEVCQU1DQmFBd013WUpZSVpJQVliNFFnRU5CQ1lXSkU5d1pXNVRVMHdnClIyVnVaWEpoZEdWa0lGTmxjblpsY2lCRFpYSjBhV1pwWTJGMFpUQWRCZ05WSFE0RUZnUVViVkp5eVd2V3R1aXQKMFBjTlUzOXJsSTQ2bEVjd2dhVUdBMVVkSXdTQm5UQ0Jtb0FVdEp3bmc4b2ZMMTdlRHhpYStlTWR3bmk5TW5paAplS1IyTUhReEZEQVNCZ05WQkFNVEMzcDBibUV0YkdGaUxXTmhNUXN3Q1FZRFZRUUdFd0pVVGpFUU1BNEdBMVVFCkNCTUhRbWw2WlhKMFpURVNNQkFHQTFVRUJ4TUpVbUZ6SUVScVltRnNNUnN3R1FZRFZRUUtFeEpFWlc1cGJTQkIKZFhSb2IzSnBkSGtnVTBFeEREQUtCZ05WQkFzVEEwbFVJSUlJTzJqQzQzeHdMejh3SndZRFZSMGxCQ0F3SGdZSQpLd1lCQlFVSEF3RUdDQ3NHQVFVRkJ3TUNCZ2dyQmdFRkJRZ0NBakFYQmdOVkhSRUVFREFPZ2d4d1lXMHVlblJ1CllTNXNZV0l3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQUdRS1BTUWlmOXBDbmxYSm56cGdteVUrVWdVU2IwNGQKSHNGb3FSSFowWlYxVnEyMTBKcWYrOC8yYS93SFdZWGhCN3h6WkJwZFlJOVl3R2JyYm9OazZ0emxCbWFZbWY3dwpOWE0rZ1RFbnZQbVNpMWlyQzVTb3lFa1dWemhhRmFuWUJva3lYU2psNXZuYjlPYTQrZlpqRzh1VGhjSlNhS2ZKCldZZGpGWFRyaTJBLy9tN3ZVc3VTTEl4YWlXKzFDdko3QlZBcWZyTk4xSU1qOXdMRFlDRGxON2hPNDhjNThxeisKKy9pMWNwUVBBVllJMGhzVlZaRFNNVktSMy9VTkVGbXpLQmlxYWxYcXVDRlpWQnJHVENIb1JOdVdhZDdIQTN1UAo4bjFyZnJFbFoyRmVyaEFMeHZXSEM3bkg3ZmNYdEptbjhWZ3RHc0VPL2JoYTNuU3F4SDlmQ2pZPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==</crt>
+		<prv>REDACTED</prv>
+	</cert>
 	<installedpackages>
 		<package>
 			<name>System Patches</name>
@@ -2254,8 +2418,7 @@
 			<url>/system_patches.php</url>
 		</menu>
 	</installedpackages>
-	<ppps>
-	</ppps>
+	<ppps></ppps>
 	<ca>
 		<refid>6ab922aa19076</refid>
 		<descr><![CDATA[ZTNA-Lab-CA]]></descr>
@@ -2263,7 +2426,7 @@
 		<randomserial>disabled</randomserial>
 		<crt>LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUVVekNDQXp1Z0F3SUJBZ0lJTzJqQzQzeHdMejh3RFFZSktvWklodmNOQVFFTEJRQXdkREVVTUJJR0ExVUUKQXhNTGVuUnVZUzFzWVdJdFkyRXhDekFKQmdOVkJBWVRBbFJPTVJBd0RnWURWUVFJRXdkQ2FYcGxjblJsTVJJdwpFQVlEVlFRSEV3bFNZWE1nUkdwaVlXd3hHekFaQmdOVkJBb1RFa1JsYm1sdElFRjFkR2h2Y21sMGVTQlRRVEVNCk1Bb0dBMVVFQ3hNRFNWUWdNQjRYRFRJMk1Ea3lOekUwTURVek1Gb1hEVE0yTURreU5ERTBNRFV6TUZvd2RERVUKTUJJR0ExVUVBeE1MZW5SdVlTMXNZV0l0WTJFeEN6QUpCZ05WQkFZVEFsUk9NUkF3RGdZRFZRUUlFd2RDYVhwbApjblJsTVJJd0VBWURWUVFIRXdsU1lYTWdSR3BpWVd3eEd6QVpCZ05WQkFvVEVrUmxibWx0SUVGMWRHaHZjbWwwCmVTQlRRVEVNTUFvR0ExVUVDeE1EU1ZRZ01JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0MKQVFFQXgrQzFrK1lmZ0tleHNQK1dBVXgyV1NoeGpma3VXeWFqSlBheXUrKzRuSm0xdmh2eXN5NlorUmVoQ2JFZgp2TTNyTXp2eW9IVVZlR0w3cm0xbHQ4SWtNK0hCZzVLcmFPUkYxanhIL3dWSFJyRXZEQ2dJQ2hiVDNUdnFzZVdECk5OUTFrMm1jMmVvd0p5bTFtb29jYUdiWnhRdG0yR2xKeEZKbXBuRFIwU3R1QUtFZk9qVDlMbFY4amZwYWZwNmYKSmNJa0UvK3V4eDVoY3pjRGlrTWVOMk94Q0VFcHNQUVpTaGVFUVNtWHhXejZoanh1a2k1cElrVlNFUmdzUE9IWAo2TkZLUDRkSWwzV3hDcm9USXhyK3Q2UG9iRElSNnQ4MjhyT1NxbUFCdmlPbElkU0hOeDA0akpZOVg1bGJIdk4zCkJGbmNUZkZtRThJcG5uaFdpejhjbnFJNUJRSURBUUFCbzRIb01JSGxNQjBHQTFVZERnUVdCQlMwbkNlRHloOHYKWHQ0UEdKcjU0eDNDZUwweWVEQ0JwUVlEVlIwakJJR2RNSUdhZ0JTMG5DZUR5aDh2WHQ0UEdKcjU0eDNDZUwweQplS0Y0cEhZd2RERVVNQklHQTFVRUF4TUxlblJ1WVMxc1lXSXRZMkV4Q3pBSkJnTlZCQVlUQWxST01SQXdEZ1lEClZRUUlFd2RDYVhwbGNuUmxNUkl3RUFZRFZRUUhFd2xTWVhNZ1JHcGlZV3d4R3pBWkJnTlZCQW9URWtSbGJtbHQKSUVGMWRHaHZjbWwwZVNCVFFURU1NQW9HQTFVRUN4TURTVlFnZ2dnN2FNTGpmSEF2UHpBUEJnTlZIUk1CQWY4RQpCVEFEQVFIL01Bc0dBMVVkRHdRRUF3SUJCakFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBWmRTYnVEbjFRU3AvCjVYdUpLK2dKRFFuRGlWTVYzMWtFU3JBM3BubUcyOTVteEFESmp1OFJzT1ZHVTBCZ0xEVEhkN1h4R3NPVzV0QmoKYXdsMUZoVUluN2xseFVvT2Q2eWZwZW9wZzJ0d1YwN3pIekxmS0lPWHZmcllhQ0ZTMEtHWk5CU0tTVk12bm5tTAowc2xCYlFkMkh2aWdGaXhkVWxSZS9wUXgyS1dwS2w2QUZuNUFWM2dyaG9YeXhSNDZNeUhZbGwxMTIxTHgzYXJ4CnpIdklGSjh6MW9RV09WeSszRTdjM1VKaG10bjYyR0ZzMUU4WEh3SFFWU0VJZC9nMFE1d0M5WEhPaGYzR0IxYkgKQ2tJeG5VZjJyNldXRWdrRWtPNmlRUjJEWFZYREV6ZFVYSkNlOE54U2NIbFIyY0lSYUlzdHNIOURYMW9lNEpZNwp5aHluZWpxNGFnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=</crt>
 		<prv>REDACTED</prv>
-		<serial>9</serial>
+		<serial>10</serial>
 	</ca>
 	<ntpd>
 		<enable>enabled</enable>

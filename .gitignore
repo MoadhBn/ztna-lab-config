@@ -5,3 +5,6 @@
 incoming/
 *.p12
 *.pfx
+# Full pfSense backups (contain the CA private key): never in Git
+nodes/fw1/config-*
+!nodes/fw1/config-redacted.xml

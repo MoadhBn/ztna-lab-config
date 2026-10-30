@@ -26,6 +26,9 @@
 ### tuple ### allow tcp 443 0.0.0.0/0 any 0.0.0.0/0 in comment=6e67696e782066726f6e7420646f6f72202846573120646563696465732077686f207265616368657320697429
 -A ufw-user-input -p tcp --dport 443 -j ACCEPT
 
+### tuple ### allow tcp 22 0.0.0.0/0 any 10.10.60.10 in comment=5353482066726f6d2050414d312028576172706761746529
+-A ufw-user-input -p tcp --dport 22 -s 10.10.60.10 -j ACCEPT
+
 ### END RULES ###
 
 ### LOGGING ###

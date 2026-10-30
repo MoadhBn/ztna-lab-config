@@ -19,6 +19,19 @@ original build phases.
 | Management segment "if possible" | A dedicated **SEC** segment | The Wazuh VM must run outside EVE, and admin traffic must cross FW1 |
 | pfSense administration through Warpgate | Kept with pfSense's existing RADIUS login; the firewall makes Warpgate the only path | No new login; pfSense keeps authorising |
 
+### Update, 24 October 2026
+
+Warpgate v0.30.0 (released 19 October) added a Vault secret backend and **Vault-signed SSH
+certificates** for SSH targets: Warpgate can now log in to a server with a short-lived
+certificate signed by Vault for each connection. The first correction above was true when
+it was written and is now out of date. The design changes as follows:
+
+- Extension Phase 2 still builds Warpgate with its own static key, so the privileged path
+  works before Vault exists.
+- Extension Phase 4 then moves Warpgate's targets to Vault-signed certificates and removes
+  the static key. Humans still never hold a server credential; Warpgate's own standing
+  credential disappears too.
+
 ## Abandoned design
 
 Warpgate installed in the IT segment at 10.10.30.30: traffic between IT1 and a gateway in
@@ -55,9 +68,10 @@ the SEC segment before anything was installed.
 |---|---|---|
 | 0 | Baseline: repository, sanitised exports, host identity check | Done ([09-ext-phase-0-baseline.md](09-ext-phase-0-baseline.md)) |
 | 1 | SEC segment and PAM1 base host | Done ([10-ext-phase-1-sec-segment.md](10-ext-phase-1-sec-segment.md)) |
-| 2 | Warpgate on PAM1: Keycloak SSO, role `ops`, SSH and web targets, recording, approvals | Not started |
+| 2A | Warpgate on PAM1: Keycloak SSO, role `ops`, first SSH target, recording | Done ([11-ext-phase-2a-warpgate.md](11-ext-phase-2a-warpgate.md)) |
+| 2B | Other SSH targets, approvals, access tickets, web targets | Not started |
 | 3 | Enforce PAM: remove direct SSH and GUI paths | Not started |
-| 4 | Vault on VAULT1: KV secrets, SSH CA for the backup job, break-glass, Transit | Not started |
+| 4 | Vault on VAULT1: KV secrets, SSH CA (Warpgate targets and the backup job), break-glass, Transit | Not started |
 | 5 | Encrypted backups, signed log manifests, restore drill | Not started |
 | 6 | Audit integration: Warpgate, Vault, sudo, auditd into LOG1; feed to Wazuh | Not started |
 | 7 | Wazuh VM: agents, decoders, rules | Not started |

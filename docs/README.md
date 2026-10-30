@@ -30,9 +30,12 @@ lab, and the **extension phases** 0 to 9 (privileged access, secrets, SIEM, AI t
 | [08-extension-design.md](08-extension-design.md) | The brief, its corrections, the owner's decisions, the roadmap | Done |
 | [09-ext-phase-0-baseline.md](09-ext-phase-0-baseline.md) | Configuration repository, sanitised exports, host identity check | Done |
 | [10-ext-phase-1-sec-segment.md](10-ext-phase-1-sec-segment.md) | SEC segment for the security services, firewall cleanups, PAM1 base host | Done |
-| Extension Phases 2 to 9 | Warpgate, enforcement, Vault, backups, audit, Wazuh, AI triage, validation | Not started |
+| [11-ext-phase-2a-warpgate.md](11-ext-phase-2a-warpgate.md) | Warpgate on PAM1, Keycloak SSO, first brokered SSH target, recording | Done; some evidence owed |
+| Extension Phases 2B to 9 | Other targets and approvals, enforcement, Vault, backups, audit, Wazuh, AI triage, validation | Not started |
 
-The current overall state and the open items are in [../STATUS.md](../STATUS.md).
+The current overall state and the open items are in [../STATUS.md](../STATUS.md). Every
+address, endpoint, download and documentation link used in the project is in
+[links.md](links.md).
 
 ## Evidence levels
 
@@ -68,5 +71,5 @@ export; password hashes, TOTP seeds and shared secrets are replaced by `<REDACTE
 | FIN | `vtnet2` | 10.10.20.0/24 | FIN1, FIN2 (DHCP) |
 | REMOTE | `vtnet4` | 10.10.40.0/24 | REMOTE1 |
 | DMZ | `vtnet5` | 172.16.0.0/24 | AppServer .10, RADIUS1 .20 |
-| SEC (Phase 1) | `vtnet6` | 10.10.60.0/24 | PAM1 .10, VAULT1 .20 (planned), Wazuh .30 (planned) |
+| SEC (Ext. Phase 1) | `vtnet6` | 10.10.60.0/24 | PAM1 .10 (Warpgate), VAULT1 .20 (planned), Wazuh .30 (planned) |
 | OpenVPN | `ovpns1` | 10.10.50.0/24 | One /28 per group: HR .16, FIN .32, IT .48 |
