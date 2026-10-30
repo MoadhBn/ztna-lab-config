@@ -84,3 +84,6 @@ sso_providers:
       roles_claim: groups
       role_mappings:
         it-admins: ops
+      admin_roles_claim: groups
+      admin_role_mappings:
+        pam-approvers: approver

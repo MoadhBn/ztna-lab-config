@@ -5,7 +5,6 @@ drwxr-xr-x root:root ./etc/chrony
 -rw-r--r-- root:root ./etc/hostname
 -rw-r--r-- root:root ./etc/hosts
 drwxr-xr-x root:root ./etc/netplan
--rw------- root:root ./etc/netplan/00-installer-config.yaml
 -rw------- root:root ./etc/netplan/50-cloud-init.yaml
 drwxr-xr-x root:root ./etc/ssh
 drwxr-xr-x root:root ./etc/ssh/sshd_config.d

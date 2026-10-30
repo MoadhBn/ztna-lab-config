@@ -1860,19 +1860,19 @@
 				<address>PAM_SERVER</address>
 			</source>
 			<destination>
-				<address>APP_SERVER</address>
+				<address>PAM_SSH_TARGETS</address>
 				<port>22</port>
 			</destination>
 			<log></log>
-			<descr><![CDATA[PAM1 brokered SSH]]></descr>
-			<updated>
-				<time>1792846784</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
-			</updated>
+			<descr><![CDATA[PAM1 brokered SSH (PAM_SSH_TARGETS)]]></descr>
 			<created>
 				<time>1792846784</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 			</created>
+			<updated>
+				<time>1793382458</time>
+				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -2266,8 +2266,8 @@
 	<vlans></vlans>
 	<qinqs></qinqs>
 	<revision>
-		<time>1792848372</time>
-		<description><![CDATA[admin@192.168.78.1 (Local Database Fallback): Signed certificate pam-web]]></description>
+		<time>1793382458</time>
+		<description><![CDATA[admin@192.168.78.1 (Local Database Fallback): Firewall: Rules - saved/edited a firewall rule.]]></description>
 		<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
 	</revision>
 	<gateways>

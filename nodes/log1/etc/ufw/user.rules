@@ -32,6 +32,9 @@
 ### tuple ### allow tcp 514 0.0.0.0/0 any 172.16.0.20 in comment=7379736c6f672066726f6d2052414449555331
 -A ufw-user-input -p tcp --dport 514 -s 172.16.0.20 -j ACCEPT
 
+### tuple ### allow tcp 22 0.0.0.0/0 any 10.10.60.10 in comment=5353482066726f6d2050414d312028576172706761746529
+-A ufw-user-input -p tcp --dport 22 -s 10.10.60.10 -j ACCEPT
+
 ### END RULES ###
 
 ### LOGGING ###
