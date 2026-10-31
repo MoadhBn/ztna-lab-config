@@ -15,7 +15,9 @@ the lab or over the VPN, not from the open internet.
 | pfSense web GUI | `https://192.168.78.20` | `ADMIN_PC` (192.168.78.1) on the WAN | RADIUS (itadmin + code); local `admin` is break-glass |
 | pfSense web GUI | `https://10.10.30.1` | IT segment (anti-lockout rule) | Same |
 | Keycloak admin console | `https://auth.ztna.lab/admin/` | IT1 (10.10.30.10) and `VPN_IT` only (nginx rule) | `kcadmin` + OTP (master realm) |
-| Warpgate admin UI | `https://pam.ztna.lab/@warpgate/admin` | IT1 and `VPN_IT` (FW1 + ufw) | Local `admin` (break-glass for Warpgate) |
+| Warpgate admin UI | `https://pam.ztna.lab/@warpgate/admin` | IT1 and `VPN_IT` (FW1 + ufw) | Local `admin` (break-glass); `secops` (approver role) |
+| pfSense GUI through Warpgate | `https://fw1.pam.ztna.lab` | IT1 and `VPN_IT`, Warpgate role `ops` | Warpgate SSO, then RADIUS (itadmin + code) |
+| Keycloak admin console through Warpgate | `https://kcadmin.pam.ztna.lab/admin/` | IT1 and `VPN_IT`, Warpgate role `ops` | Warpgate SSO, then `kcadmin` + OTP |
 
 **Planned:** Vault UI on `vault.ztna.lab` (10.10.60.20, Extension Phase 4) and the Wazuh
 dashboard on `wazuh.ztna.lab` (10.10.60.30, Extension Phase 7). Both will be reached
@@ -91,6 +93,8 @@ Container images are pinned by digest in `nodes/appserver/home/labadmin/ztna/doc
 | pfSense | <https://docs.netgate.com/pfsense/en/latest/> |
 | FreeRADIUS | <https://www.freeradius.org/documentation/> |
 | Keycloak | <https://www.keycloak.org/documentation> |
+| Keycloak hostname options | <https://www.keycloak.org/server/hostname> |
+| Keycloak admin recovery (`bootstrap-admin`) | <https://www.keycloak.org/server/bootstrap-admin-recovery> |
 | oauth2-proxy | <https://oauth2-proxy.github.io/oauth2-proxy/> |
 | rsyslog | <https://www.rsyslog.com/doc/> |
 | lnav | <https://docs.lnav.org/> |
@@ -110,6 +114,8 @@ Container images are pinned by digest in `nodes/appserver/home/labadmin/ztna/doc
 | Custom root CAs | <https://warpgate.null.page/custom-ca/> | Trusting ZTNA-Lab-CA (host trust store) |
 | Session recordings | <https://warpgate.null.page/recordings/> | Recording is a UI setting, not a config key |
 | TLS SNI | <https://warpgate.null.page/sni/> | `http.certificate` / `http.key` keys for the lab certificate |
+| HTTP targets | <https://warpgate.null.page/targets/http/> | Target URL, certificate verification, domain binding |
+| HTTP domain binding | <https://warpgate.null.page/http-domain-binding/> | `fw1.pam.ztna.lab`, `kcadmin.pam.ztna.lab` |
 | Session approvals | <https://warpgate.null.page/approvals/> | Per-session approval for RADIUS1 (Extension Phase 2B) |
 | Access tickets | <https://warpgate.null.page/tickets/> | Time-limited access (Extension Phase 2B) |
 | Recovering admin access | <https://warpgate.null.page/recovering-access/> | `warpgate recover-access` |

@@ -15,6 +15,7 @@ server {
     location ~ ^/(admin|realms/master)(/|$) {
         allow 10.10.50.48/28;
         allow 10.10.30.10;
+        allow 10.10.60.10;      # PAM1 (Warpgate)
         deny  all;
         proxy_pass http://127.0.0.1:8080;
     }

@@ -4,7 +4,7 @@ Updated at the end of every phase. This file, the repository and the two LaTeX d
 (`report.tex`, `technical_documentation.tex`) are the record of the project; it does not
 depend on any chat transcript.
 
-Last update: 2026-10-30 (Extension Phase 2B part 1 complete; part 2, web targets, not started). Phase-by-phase records of the whole project: [docs/](docs/README.md). The roadmap below uses the extension phase numbers.
+Last update: 2026-10-31 (Extension Phase 2 complete; Phase 3 not started). Phase-by-phase records of the whole project: [docs/](docs/README.md). The roadmap below uses the extension phase numbers.
 
 ## What exists
 
@@ -16,7 +16,7 @@ Last update: 2026-10-30 (Extension Phase 2B part 1 complete; part 2, web targets
 | Applications | nginx, oauth2-proxy (hr, fin), Keycloak 26.3 + PostgreSQL on AppServer, images pinned by digest | Built |
 | Visibility | LOG1: rsyslog collector, lnav views, detection R1-R7, daily digest | Built |
 | Baseline | This repository (sanitised configs), encrypted pfSense backups in `C:\ztna-backups\` outside Git | Done (Phase 0) |
-| Privileged access | Warpgate v0.30.0 on PAM1: Keycloak SSO (`it-admins` → role `ops`), SSH targets AppServer, RADIUS1, LOG1 as `pamops`; per-session approval for RADIUS1 by a separate approver (`pam-approvers` → admin role `approver`); command log and session recording | SSH done; web targets in 2B part 2 |
+| Privileged access | Warpgate v0.30.0 on PAM1: Keycloak SSO (`it-admins` → role `ops`), SSH targets AppServer, RADIUS1, LOG1 as `pamops`; per-session approval for RADIUS1 by a separate approver (`pam-approvers` → admin role `approver`); command log and session recording; web targets pfSense GUI (`fw1.pam.ztna.lab`, RADIUS login) and Keycloak admin console (`kcadmin.pam.ztna.lab`, `kcadmin` + OTP) | Done; direct paths still open until Phase 3 |
 
 ## Roadmap
 
@@ -25,8 +25,8 @@ Last update: 2026-10-30 (Extension Phase 2B part 1 complete; part 2, web targets
 | 0 | Baseline: repository, backups, host identity check | Done, commit `3197fca` |
 | 1 | SEC segment 10.10.60.0/24 (FW1 `vtnet6`, EVE Cloud2, VMware VMnet3), PAM1 base host | Done, commit `53619eb` (PAM1 test outputs not recorded) |
 | 2A | Warpgate on PAM1 (10.10.60.10): Keycloak SSO, role `ops`, first SSH target AppServer, recording | Done, commit `b31d53b` ([docs/11](docs/11-ext-phase-2a-warpgate.md)) |
-| 2B part 1 | Targets RADIUS1 and LOG1, separate approver and per-session approval for RADIUS1, ticket evaluation, negative tests | Done ([docs/12](docs/12-ext-phase-2b-targets-approvals.md)) |
-| 2B part 2 | Web targets: pfSense GUI (RADIUS login), Keycloak admin console | Not started |
+| 2B part 1 | Targets RADIUS1 and LOG1, separate approver and per-session approval for RADIUS1, ticket evaluation, negative tests | Done, commit `137e74e` ([docs/12](docs/12-ext-phase-2b-targets-approvals.md)) |
+| 2B part 2 | Web targets: pfSense GUI (RADIUS login), Keycloak admin console | Done ([docs/13](docs/13-ext-phase-2b-web-targets.md)) |
 | 3 | Enforce PAM: remove direct SSH and GUI paths, Warpgate only | Not started |
 | 4 | Vault on VAULT1 (10.10.60.20): KV secrets, SSH CA (Warpgate targets and the backup job), break-glass, Transit | Not started |
 | 5 | Encrypted backups, signed log manifests, restore drill | Not started |
@@ -60,6 +60,8 @@ Last update: 2026-10-30 (Extension Phase 2B part 1 complete; part 2, web targets
   groups.
 - Direct SSH from IT1 and `VPN_IT` to the servers (`IT_ADMIN → INTERNAL_NETS:22`,
   `VPN_IT → INTERNAL_NETS:22`).
+- Direct console access: nginx allows `VPN_IT` and IT1 on the Keycloak admin pages; the
+  pfSense GUI is reachable from `ADMIN_PC` (WAN rule) and IT1.
 
 ## Known differences between the real configuration and the documents
 
@@ -75,9 +77,13 @@ Still open:
 - Every SEC rule is now named. Rules without a description remain on the OpenVPN tab (5 of 7)
   and on IT, HR, FIN, REMOTE and DMZ; REMOTE also keeps a disabled, unnamed block rule in the
   middle of the list.
-- pfSense changes are made with the local `admin` account (`Local Database Fallback` in the
-  change history), not with the RADIUS identity; 2B part 2 moves pfSense administration to
-  RADIUS through Warpgate.
+- pfSense changes have been made with the local `admin` account (`Local Database Fallback` in
+  the change history). The RADIUS login through Warpgate works since 2B part 2; Phase 3 makes
+  it the only daily path.
+- pfSense's login protection sees every Warpgate administrator as `10.10.60.10`; repeated
+  failures would block all of them. To design in Phase 3 with the console break-glass.
+- The nginx `X-Forwarded-Host` map (`conf.d/ztna-kcadmin-host.conf`) was needed only while
+  `KC_HOSTNAME_ADMIN` was tried; remove and retest in Phase 3.
 - Five exported `.ovpn` profiles, each embedding a user's private key, are in the Windows
   `Downloads` folder; delete them in Phase 3.
 - `ztna-config-export` fails when an archive with the same name owned by labadmin is left in

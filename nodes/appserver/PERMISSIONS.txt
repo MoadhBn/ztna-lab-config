@@ -8,6 +8,7 @@ drwxr-xr-x root:root ./etc/netplan
 -rw------- root:root ./etc/netplan/01-static.yaml
 drwxr-xr-x root:root ./etc/nginx
 drwxr-xr-x root:root ./etc/nginx/conf.d
+-rw-r--r-- root:root ./etc/nginx/conf.d/ztna-kcadmin-host.conf
 -rw-r--r-- root:root ./etc/nginx/conf.d/ztna-logformat.conf
 -rw-r--r-- root:root ./etc/nginx/fastcgi.conf
 -rw-r--r-- root:root ./etc/nginx/fastcgi_params
