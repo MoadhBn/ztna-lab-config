@@ -17,17 +17,11 @@
 :ufw-user-limit-accept - [0:0]
 ### RULES ###
 
-### tuple ### allow tcp 22 0.0.0.0/0 any 10.10.30.10 in comment=5353482066726f6d206a756d7020686f73742049543120286275696c6420706861736529
--A ufw-user-input -p tcp --dport 22 -s 10.10.30.10 -j ACCEPT
-
 ### tuple ### allow tcp 443,2222 0.0.0.0/0 any 10.10.50.48/28 in comment=50414d2066726f6d2056504e5f4954
 -A ufw-user-input -p tcp -m multiport --dports 443,2222 -s 10.10.50.48/28 -j ACCEPT
 
 ### tuple ### allow tcp 443,2222 0.0.0.0/0 any 10.10.30.10 in comment=50414d2066726f6d20495431
 -A ufw-user-input -p tcp -m multiport --dports 443,2222 -s 10.10.30.10 -j ACCEPT
-
-### tuple ### allow tcp 22 0.0.0.0/0 any 10.10.50.49 in comment=54454d50206578706f72742066726f6d20697461646d696e2056504e
--A ufw-user-input -p tcp --dport 22 -s 10.10.50.49 -j ACCEPT
 
 ### END RULES ###
 

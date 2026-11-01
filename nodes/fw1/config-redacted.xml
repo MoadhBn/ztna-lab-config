@@ -63,6 +63,7 @@
 			<max_procs>2</max_procs>
 			<roaming>enabled</roaming>
 			<althostnames>pam.ztna.lab fw1.pam.ztna.lab</althostnames>
+			<noantilockout></noantilockout>
 		</webgui>
 		<disablenatreflection>yes</disablenatreflection>
 		<disablesegmentationoffloading></disablesegmentationoffloading>
@@ -98,6 +99,7 @@
 		<dnsallowoverride></dnsallowoverride>
 		<serialspeed>115200</serialspeed>
 		<primaryconsole>video</primaryconsole>
+		<sshguard_whitelist>10.10.60.10/32</sshguard_whitelist>
 	</system>
 	<interfaces>
 		<wan>
@@ -346,41 +348,6 @@
 		</rule>
 		<rule>
 			<id></id>
-			<tracker>1790519758</tracker>
-			<type>pass</type>
-			<interface>openvpn</interface>
-			<ipprotocol>inet</ipprotocol>
-			<tag></tag>
-			<tagged></tagged>
-			<max></max>
-			<max-src-nodes></max-src-nodes>
-			<max-src-conn></max-src-conn>
-			<max-src-states></max-src-states>
-			<statetimeout></statetimeout>
-			<statepolicy></statepolicy>
-			<statetype><![CDATA[keep state]]></statetype>
-			<os></os>
-			<protocol>tcp</protocol>
-			<source>
-				<address>VPN_IT</address>
-			</source>
-			<destination>
-				<address>INTERNAL_NETS</address>
-				<port>22</port>
-			</destination>
-			<log></log>
-			<descr></descr>
-			<updated>
-				<time>1790519758</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
-			</updated>
-			<created>
-				<time>1790519758</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
-			</created>
-		</rule>
-		<rule>
-			<id></id>
 			<tracker>1790592500</tracker>
 			<type>pass</type>
 			<interface>openvpn</interface>
@@ -515,6 +482,7 @@
 				<time>1790258979</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
 			</created>
+			<disabled></disabled>
 		</rule>
 		<rule>
 			<id></id>
@@ -708,41 +676,6 @@
 			</created>
 			<updated>
 				<time>1790338144</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
-			</updated>
-		</rule>
-		<rule>
-			<id></id>
-			<tracker>1790338089</tracker>
-			<type>pass</type>
-			<interface>lan</interface>
-			<ipprotocol>inet</ipprotocol>
-			<tag></tag>
-			<tagged></tagged>
-			<max></max>
-			<max-src-nodes></max-src-nodes>
-			<max-src-conn></max-src-conn>
-			<max-src-states></max-src-states>
-			<statetimeout></statetimeout>
-			<statepolicy></statepolicy>
-			<statetype><![CDATA[keep state]]></statetype>
-			<os></os>
-			<protocol>tcp</protocol>
-			<source>
-				<address>IT_ADMIN</address>
-			</source>
-			<destination>
-				<address>INTERNAL_NETS</address>
-				<port>22</port>
-			</destination>
-			<log></log>
-			<descr></descr>
-			<created>
-				<time>1790338089</time>
-				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
-			</created>
-			<updated>
-				<time>1790338310</time>
 				<username><![CDATA[admin@192.168.78.1 (Local Database)]]></username>
 			</updated>
 		</rule>
@@ -2208,7 +2141,7 @@
 			<remote_networkv6></remote_networkv6>
 			<gwredir></gwredir>
 			<gwredir6></gwredir6>
-			<local_network>172.16.0.0/24, 10.10.30.20/32, 10.10.60.10/32</local_network>
+			<local_network>172.16.0.0/24, 10.10.60.10/32</local_network>
 			<local_networkv6></local_networkv6>
 			<maxclients></maxclients>
 			<connlimit></connlimit>
@@ -2319,9 +2252,9 @@
 	<vlans></vlans>
 	<qinqs></qinqs>
 	<revision>
-		<time>1793458451</time>
-		<description><![CDATA[admin@192.168.78.1 (Local Database Fallback): Deleted certificate pam-web]]></description>
-		<username><![CDATA[admin@192.168.78.1 (Local Database Fallback)]]></username>
+		<time>1793465772</time>
+		<description><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1): Updated OpenVPN server on :1194 ]]></description>
+		<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
 	</revision>
 	<gateways>
 		<gateway_item>

@@ -33,7 +33,8 @@ lab, and the **extension phases** 0 to 9 (privileged access, secrets, SIEM, AI t
 | [11-ext-phase-2a-warpgate.md](11-ext-phase-2a-warpgate.md) | Warpgate on PAM1, Keycloak SSO, first brokered SSH target, recording | Done |
 | [12-ext-phase-2b-targets-approvals.md](12-ext-phase-2b-targets-approvals.md) | RADIUS1 and LOG1 as targets, separate approver, per-session approval, access tickets evaluated | Done (part 1) |
 | [13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md) | pfSense GUI and Keycloak admin console through Warpgate, Keycloak admin lockout recovery | Done |
-| Extension Phases 3 to 9 | Enforcement, Vault, backups, audit, Wazuh, AI triage, validation | Not started |
+| [14-ext-phase-3-enforce-pam.md](14-ext-phase-3-enforce-pam.md) | Direct paths closed, break-glass paths, exports through Warpgate, approval rule extended | Configuration done; tests to run |
+| Extension Phases 4 to 9 | Vault, backups, audit, Wazuh, AI triage, validation | Not started |
 
 The current overall state and the open items are in [../STATUS.md](../STATUS.md). Every
 address, endpoint, download and documentation link used in the project is in

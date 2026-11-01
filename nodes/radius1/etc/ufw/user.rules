@@ -17,12 +17,6 @@
 :ufw-user-limit-accept - [0:0]
 ### RULES ###
 
-### tuple ### allow tcp 22 0.0.0.0/0 any 10.10.30.10 in comment=5353482066726f6d206a756d7020686f737420495431
--A ufw-user-input -p tcp --dport 22 -s 10.10.30.10 -j ACCEPT
-
-### tuple ### allow tcp 22 0.0.0.0/0 any 10.10.50.48/28 in comment=5353482066726f6d2056504e5f4954
--A ufw-user-input -p tcp --dport 22 -s 10.10.50.48/28 -j ACCEPT
-
 ### tuple ### allow udp 1812:1813 0.0.0.0/0 any 172.16.0.1 in comment=5241444955532066726f6d20465731206f6e6c79
 -A ufw-user-input -p udp -m multiport --dports 1812:1813 -s 172.16.0.1 -j ACCEPT
 
