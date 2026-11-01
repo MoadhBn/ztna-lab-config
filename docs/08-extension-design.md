@@ -71,7 +71,7 @@ the SEC segment before anything was installed.
 | 2A | Warpgate on PAM1: Keycloak SSO, role `ops`, first SSH target, recording | Done ([11-ext-phase-2a-warpgate.md](11-ext-phase-2a-warpgate.md)) |
 | 2B | Part 1: other SSH targets, approvals, tickets evaluated ([12-ext-phase-2b-targets-approvals.md](12-ext-phase-2b-targets-approvals.md)); part 2: web targets ([13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md)) | Done |
 | 3 | Enforce PAM: remove direct SSH and GUI paths ([14-ext-phase-3-enforce-pam.md](14-ext-phase-3-enforce-pam.md)) | Done |
-| 4 | Vault on VAULT1: 4A-4B server and admin access ([15-ext-phase-4ab-vault.md](15-ext-phase-4ab-vault.md)); 4C-4D KV secrets, SSH CA (Warpgate targets and the backup job), break-glass, Transit | 4A-4B done |
+| 4 | Vault on VAULT1: 4A-4B server and admin access ([15-ext-phase-4ab-vault.md](15-ext-phase-4ab-vault.md)); 4C application secrets ([16-ext-phase-4c-app-secrets.md](16-ext-phase-4c-app-secrets.md)); 4D SSH CA (Warpgate targets and the backup job), break-glass, Transit | 4A-4C done |
 | 5 | Encrypted backups, signed log manifests, restore drill | Not started |
 | 6 | Audit integration: Warpgate, Vault, sudo, auditd into LOG1; feed to Wazuh | Not started |
 | 7 | Wazuh VM: agents, decoders, rules | Not started |

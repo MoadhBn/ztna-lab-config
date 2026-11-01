@@ -1,1 +1,2 @@
 ./etc/nginx/sites-enabled/ztna -> /etc/nginx/sites-available/ztna
+./home/labadmin/ztna/.env -> /run/vault-agent/compose.env

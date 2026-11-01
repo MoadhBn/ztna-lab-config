@@ -35,7 +35,8 @@ lab, and the **extension phases** 0 to 9 (privileged access, secrets, SIEM, AI t
 | [13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md) | pfSense GUI and Keycloak admin console through Warpgate, Keycloak admin lockout recovery | Done |
 | [14-ext-phase-3-enforce-pam.md](14-ext-phase-3-enforce-pam.md) | Direct paths closed, break-glass paths, exports through Warpgate, approval rule extended | Done; FW1 break-glass test to run |
 | [15-ext-phase-4ab-vault.md](15-ext-phase-4ab-vault.md) | Vault on VAULT1, initialisation ceremony, audit log, administrator login through Keycloak, root token revoked | Done |
-| Extension Phases 4C to 9 | Application secrets, SSH certificates, backups, audit, Wazuh, AI triage, validation | Not started |
+| [16-ext-phase-4c-app-secrets.md](16-ext-phase-4c-app-secrets.md) | AppServer's secrets in Vault, Vault Agent and AppRole, rotation demo | Done |
+| Extension Phases 4D to 9 | SSH certificates, backups, audit, Wazuh, AI triage, validation | Not started |
 
 The current overall state and the open items are in [../STATUS.md](../STATUS.md). Every
 address, endpoint, download and documentation link used in the project is in

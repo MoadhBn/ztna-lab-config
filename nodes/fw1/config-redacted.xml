@@ -1607,6 +1607,41 @@
 		</rule>
 		<rule>
 			<id></id>
+			<tracker>1793548686</tracker>
+			<type>pass</type>
+			<interface>opt4</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp</protocol>
+			<source>
+				<address>APP_SERVER</address>
+			</source>
+			<destination>
+				<address>VAULT_SERVER</address>
+				<port>8200</port>
+			</destination>
+			<log></log>
+			<descr><![CDATA[AppServer to Vault (Agent)]]></descr>
+			<updated>
+				<time>1793548686</time>
+				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
+			</updated>
+			<created>
+				<time>1793548686</time>
+				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
 			<tracker>1790338779</tracker>
 			<type>block</type>
 			<interface>opt4</interface>
@@ -1871,15 +1906,15 @@
 				<port>443</port>
 			</destination>
 			<log></log>
-			<descr><![CDATA[VAULT1 to Keycloadk (OIDC)]]></descr>
-			<updated>
-				<time>1793539628</time>
-				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
-			</updated>
+			<descr><![CDATA[VAULT1 to Keycloak (OIDC)]]></descr>
 			<created>
 				<time>1793539628</time>
 				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
 			</created>
+			<updated>
+				<time>1793548722</time>
+				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
+			</updated>
 		</rule>
 		<rule>
 			<id></id>
@@ -2301,8 +2336,8 @@
 	<vlans></vlans>
 	<qinqs></qinqs>
 	<revision>
-		<time>1793540217</time>
-		<description><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1): Deleted certificate pam-web-2b]]></description>
+		<time>1793548722</time>
+		<description><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1): Firewall: Rules - saved/edited a firewall rule.]]></description>
 		<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
 	</revision>
 	<gateways>
