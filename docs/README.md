@@ -33,8 +33,9 @@ lab, and the **extension phases** 0 to 9 (privileged access, secrets, SIEM, AI t
 | [11-ext-phase-2a-warpgate.md](11-ext-phase-2a-warpgate.md) | Warpgate on PAM1, Keycloak SSO, first brokered SSH target, recording | Done |
 | [12-ext-phase-2b-targets-approvals.md](12-ext-phase-2b-targets-approvals.md) | RADIUS1 and LOG1 as targets, separate approver, per-session approval, access tickets evaluated | Done (part 1) |
 | [13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md) | pfSense GUI and Keycloak admin console through Warpgate, Keycloak admin lockout recovery | Done |
-| [14-ext-phase-3-enforce-pam.md](14-ext-phase-3-enforce-pam.md) | Direct paths closed, break-glass paths, exports through Warpgate, approval rule extended | Configuration done; tests to run |
-| Extension Phases 4 to 9 | Vault, backups, audit, Wazuh, AI triage, validation | Not started |
+| [14-ext-phase-3-enforce-pam.md](14-ext-phase-3-enforce-pam.md) | Direct paths closed, break-glass paths, exports through Warpgate, approval rule extended | Done; FW1 break-glass test to run |
+| [15-ext-phase-4ab-vault.md](15-ext-phase-4ab-vault.md) | Vault on VAULT1, initialisation ceremony, audit log, administrator login through Keycloak, root token revoked | Done |
+| Extension Phases 4C to 9 | Application secrets, SSH certificates, backups, audit, Wazuh, AI triage, validation | Not started |
 
 The current overall state and the open items are in [../STATUS.md](../STATUS.md). Every
 address, endpoint, download and documentation link used in the project is in
@@ -74,5 +75,5 @@ export; password hashes, TOTP seeds and shared secrets are replaced by `<REDACTE
 | FIN | `vtnet2` | 10.10.20.0/24 | FIN1, FIN2 (DHCP) |
 | REMOTE | `vtnet4` | 10.10.40.0/24 | REMOTE1 |
 | DMZ | `vtnet5` | 172.16.0.0/24 | AppServer .10, RADIUS1 .20 |
-| SEC (Ext. Phase 1) | `vtnet6` | 10.10.60.0/24 | PAM1 .10 (Warpgate), VAULT1 .20 (planned), Wazuh .30 (planned) |
+| SEC (Ext. Phase 1) | `vtnet6` | 10.10.60.0/24 | PAM1 .10 (Warpgate), VAULT1 .20 (Vault), Wazuh .30 (planned) |
 | OpenVPN | `ovpns1` | 10.10.50.0/24 | One /28 per group: HR .16, FIN .32, IT .48 |

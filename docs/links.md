@@ -19,9 +19,9 @@ the lab or over the VPN, not from the open internet.
 | pfSense GUI through Warpgate | `https://fw1.pam.ztna.lab` | IT1 and `VPN_IT`, Warpgate role `ops` | Warpgate SSO, then RADIUS (itadmin + code) |
 | Keycloak admin console through Warpgate | `https://kcadmin.pam.ztna.lab/admin/` | IT1 and `VPN_IT`, Warpgate role `ops` | Warpgate SSO, then `kcadmin` + OTP |
 
-**Planned:** Vault UI on `vault.ztna.lab` (10.10.60.20, Extension Phase 4) and the Wazuh
-dashboard on `wazuh.ztna.lab` (10.10.60.30, Extension Phase 7). Both will be reached
-through Warpgate once Extension Phase 3 is done.
+| Vault UI through Warpgate | `https://vault.pam.ztna.lab` | IT1 and `VPN_IT`, Warpgate role `ops` | Warpgate SSO, then Vault method OIDC (Keycloak, group `it-admins`) |
+
+**Planned:** the Wazuh dashboard at `https://wazuh.pam.ztna.lab` (Extension Phase 7).
 
 ## 2. Lab: user-facing services
 
@@ -57,6 +57,7 @@ through Warpgate once Extension Phase 3 is done.
 
 | Component | Version | Address | SHA-256 |
 |---|---|---|---|
+| Vault (linux_amd64 zip) | 2.2.1 | <https://releases.hashicorp.com/vault/2.2.1/vault_2.2.1_linux_amd64.zip> (`SHA256SUMS` signed by HashiCorp key `C874 011F 0AB4 0511 0D02 1055 3436 5D94 72D7 468F`) | `079435de8ff146bdec4cdbe3be71d672ef4e59e4df6af0f2dba672e71be21a68` |
 | Warpgate (x86_64 Linux) | v0.30.0 | <https://github.com/warp-tech/warpgate/releases/download/v0.30.0/warpgate-v0.30.0-x86_64-linux> | `49f02781e4f6bd199aa9d29c0acd1fd90ef0c0627a76742d08adb8985c60096c` |
 
 Container images are pinned by digest in `nodes/appserver/home/labadmin/ztna/docker-compose.yml`.
@@ -120,6 +121,15 @@ Container images are pinned by digest in `nodes/appserver/home/labadmin/ztna/doc
 | Access tickets | <https://warpgate.null.page/tickets/> | Time-limited access (Extension Phase 2B) |
 | Recovering admin access | <https://warpgate.null.page/recovering-access/> | `warpgate recover-access` |
 | Production checklist | <https://warpgate.null.page/production-checklist/> | Hardening review |
+
+### Vault (Extension Phase 4)
+
+| Page | Address | Used for |
+|---|---|---|
+| Install | <https://developer.hashicorp.com/vault/install> | Version |
+| HashiCorp security (PGP key) | <https://www.hashicorp.com/en/trust/security> | Download verification |
+| Integrated storage (raft) | <https://developer.hashicorp.com/vault/docs/configuration/storage/raft> | Configuration |
+| JWT/OIDC auth method | <https://developer.hashicorp.com/vault/docs/auth/jwt> | Keycloak login, role, redirect URI |
 
 ### Tool selection
 

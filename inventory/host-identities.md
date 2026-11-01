@@ -15,6 +15,7 @@ Get them on a node with:
 | RADIUS1 | 172.16.0.20 | `1u207+dI8rKSCY1/mLEhOjg5TE17Y2/RbbvUyK4i2DY` | not recorded | shown by scp from Windows, 2026-10-08; read from PAM1 (`ssh-keyscan`), 2026-10-30 |
 | LOG1 | 10.10.30.20 | `WGBLnV2SMkUVag9TEHRqJTKvcL/zifD1/yBFMDXnCss` | not recorded | shown by scp from Windows, 2026-10-08; read from PAM1 (`ssh-keyscan`), 2026-10-30 |
 | PAM1 | 10.10.60.10 | `kNRjQwjs0rrbqXMktw24haRfQw+CW/6ZcQP20zcuUn4` | `7e3d566a9ef74530b1a32f8d8c7eb86d` | console output, 2026-10-08 |
+| VAULT1 | 10.10.60.20 | `i2DtH3S5vITMrdqF+7raTSUrIQHrFs9bM3NoKL/OOMY` | `92fd22036ff945de8e5e9b892cbb5af7` | console output, 2026-11-01 |
 | IT1 | 10.10.30.10 | `fv0UgitcOdPPlpAYqvk5xEgZ5ZKJmEWxi9zRhtmh9DM` | `0157b0ba66aa49d38508868a4c044c70` | console output, 2026-10-08 |
 | REMOTE1 | DHCP | not recorded | not recorded | |
 | HR1, HR2 | DHCP | not recorded | not recorded | |

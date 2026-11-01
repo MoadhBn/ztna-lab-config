@@ -19,6 +19,7 @@ drwxr-xr-x root:root ./etc/ufw
 -rw-r----- root:root ./etc/ufw/user.rules
 drwx------ root:root ./etc/warpgate-tls
 -rw-r--r-- root:root ./etc/warpgate-tls/pam-2b.csr
+-rw-r--r-- root:root ./etc/warpgate-tls/pam-4b.csr
 -rw-r--r-- root:root ./etc/warpgate-tls/pam.crt
 -rw-r--r-- root:root ./etc/warpgate-tls/pam.csr
 -rw------- root:root ./etc/warpgate.yaml

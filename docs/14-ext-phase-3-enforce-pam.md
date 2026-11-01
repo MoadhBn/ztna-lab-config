@@ -1,8 +1,7 @@
 # Extension Phase 3: Warpgate as the only administrative path
 
 **Date:** 31 October to 1 November 2026. **Commit:** the commit that adds this file.
-**State:** configuration done; the negative tests and the FW1 break-glass test are still to
-be run (see the end). Previous phase: [13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md).
+**State:** done; negative tests run on 1 November; the FW1 break-glass test is still to be run. Previous phase: [13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md).
 
 ## Goal
 
@@ -94,7 +93,12 @@ account can read it. `-o User=` is needed because `scp` would read the `:` in
 | 5 | nginx admin rule | `allow 10.10.60.10` only | **Verified** in the export |
 | 6 | Host key of `pam1` = inventory value `kNRjQ…` | Matches | Not recorded |
 | 7 | labadmin `authorized_keys` empty on the four servers | `0` bytes | Not recorded |
-| N1–N6 | Direct SSH from IT1 and VPN, GUI from ADMIN_PC and IT1, Keycloak `/admin` from the VPN, route to LOG1 | All refused | **Not run yet** |
+| N1 | `ssh -l labadmin` from IT1 to AppServer, RADIUS1, LOG1, PAM1, VAULT1 | No connection | **Verified** (1 November: no connection to any; attempts interrupted, no prompt) |
+| N2 | `ssh labadmin@172.16.0.20` from Windows over the itadmin VPN | Timeout | **Verified** (`Connection timed out`) |
+| N3 | `https://192.168.78.20` from Windows | Unreachable | **Verified** (`ERR_CONNECTION_TIMED_OUT`) |
+| N4 | `curl https://10.10.30.1` from IT1 | Unreachable | **Verified** (no answer; interrupted) |
+| N5 | `https://auth.ztna.lab/admin/` over the itadmin VPN | `403` | **Verified** |
+| N6 | `Test-NetConnection 10.10.30.20 -Port 22` over the reconnected itadmin VPN | Fails | **Verified** (`TcpTestSucceeded False`) |
 | BG | FW1 break-glass with `easyrule` | GUI reachable, then closed again | **Not run yet** |
 
 ## Problems met and how they were solved
@@ -107,7 +111,7 @@ account can read it. `-o User=` is needed because `scp` would read the `:` in
 
 ## Still open
 
-- Run tests N1–N6 and the FW1 break-glass test. Until the break-glass test is done, a broken
+- Run the FW1 break-glass test. Until it is done, a broken
   Warpgate path to `fw1-gui` would have to be recovered with a procedure never tried.
 - Record tests 6 and 7.
 - Make a new encrypted FW1 backup: the last one (31 October 19:50) may predate the Step 4
