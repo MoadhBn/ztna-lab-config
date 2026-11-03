@@ -4,7 +4,7 @@ Updated at the end of every phase. This file, the repository and the two LaTeX d
 (`report.tex`, `technical_documentation.tex`) are the record of the project; it does not
 depend on any chat transcript.
 
-Last update: 2026-11-01 (Extension Phases 3 and 4A-4C done; FW1 break-glass test still owed). Phase-by-phase records of the whole project: [docs/](docs/README.md). The roadmap below uses the extension phase numbers.
+Last update: 2026-11-01 (Extension Phases 3 and 4 done; FW1 break-glass test still owed). Phase-by-phase records of the whole project: [docs/](docs/README.md). The roadmap below uses the extension phase numbers.
 
 ## What exists
 
@@ -15,9 +15,9 @@ Last update: 2026-11-01 (Extension Phases 3 and 4A-4C done; FW1 break-glass test
 | Remote access | OpenVPN on FW1: certificate + password + TOTP, strict CN, CRL `ZTNA-Lab-CRL`, one /28 per group | Built |
 | Applications | nginx, oauth2-proxy (hr, fin), Keycloak 26.3 + PostgreSQL on AppServer, images pinned by digest | Built |
 | Visibility | LOG1: rsyslog collector, lnav views, detection R1-R7, daily digest | Built |
-| Secrets | Vault 2.2.1 on VAULT1: OIDC login for `it-admins` (policy `vault-admin`, audit settings denied), UI at `vault.pam.ztna.lab` through Warpgate, no standing root token | Server, admin access and application secrets done; SSH certificates and Transit in 4D |
+| Secrets | Vault 2.2.1 on VAULT1: OIDC login for `it-admins` (policy `vault-admin`, audit settings denied), UI at `vault.pam.ztna.lab` through Warpgate, no standing root token | Done: admin access, application secrets, SSH CA for Warpgate, Transit, break-glass entries |
 | Baseline | This repository (sanitised configs), encrypted pfSense backups in `C:\ztna-backups\` outside Git | Done (Phase 0) |
-| Privileged access | Warpgate v0.30.0 on PAM1: Keycloak SSO (`it-admins` → role `ops`), SSH targets AppServer, RADIUS1, LOG1 as `pamops`; target `pam1` (the gateway itself); per-session approval for RADIUS1, AppServer and PAM1 by a separate approver (`pam-approvers` → admin role `approver`); command log and session recording; web targets pfSense GUI (`fw1.pam.ztna.lab`, RADIUS login) and Keycloak admin console (`kcadmin.pam.ztna.lab`, `kcadmin` + OTP) | Done; the only administrative path since Phase 3 |
+| Privileged access | Warpgate v0.30.0 on PAM1: Keycloak SSO (`it-admins` → role `ops`), SSH targets AppServer, RADIUS1, LOG1, VAULT1 as `pamops`, authenticated with 5-minute certificates signed by Vault (no standing key); target `pam1` (the gateway itself); per-session approval for RADIUS1, AppServer and PAM1 by a separate approver (`pam-approvers` → admin role `approver`); command log and session recording; web targets pfSense GUI (`fw1.pam.ztna.lab`, RADIUS login) and Keycloak admin console (`kcadmin.pam.ztna.lab`, `kcadmin` + OTP) | Done; the only administrative path since Phase 3 |
 
 ## Roadmap
 
@@ -30,8 +30,8 @@ Last update: 2026-11-01 (Extension Phases 3 and 4A-4C done; FW1 break-glass test
 | 2B part 2 | Web targets: pfSense GUI (RADIUS login), Keycloak admin console | Done, commit `8584ed5` ([docs/13](docs/13-ext-phase-2b-web-targets.md)) |
 | 3 | Enforce PAM: remove direct SSH and GUI paths, Warpgate only | Done, commit `a21ecf4` ([docs/14](docs/14-ext-phase-3-enforce-pam.md)); negative tests passed, FW1 break-glass test to run |
 | 4A-4B | Vault 2.2.1 on VAULT1 (10.10.60.20): TLS, raft, Shamir 5/3, audit log; admin login through Keycloak (`it-admins`), UI through Warpgate, root token revoked | Done, commit `3c4b2fc` ([docs/15](docs/15-ext-phase-4ab-vault.md)) |
-| 4C | AppServer's compose secrets in Vault (KV v2), Vault Agent with AppRole bound to AppServer, secrets in RAM only, rotation demo | Done ([docs/16](docs/16-ext-phase-4c-app-secrets.md)) |
-| 4D | Vault: SSH certificates for Warpgate's targets and the backup job; break-glass secrets; Transit | Not started |
+| 4C | AppServer's compose secrets in Vault (KV v2), Vault Agent with AppRole bound to AppServer, secrets in RAM only, rotation demo | Done, commit `8f54784` ([docs/16](docs/16-ext-phase-4c-app-secrets.md)) |
+| 4D | Vault-signed 5-minute SSH certificates for all Warpgate targets (static key removed), Transit key `backup`, write-only break-glass secrets, root generation without login | Done ([docs/17](docs/17-ext-phase-4d-ssh-ca-transit-breakglass.md)); SSH CA for the backup job in Phase 5 |
 | 5 | Encrypted backups, signed log manifests, restore drill | Not started |
 | 6 | Audit integration: Warpgate, Vault, sudo, auditd into LOG1; LOG1 feed to Wazuh | Not started |
 | 7 | Wazuh VM (10.10.60.30): agents, decoders, rules; `ztna-detect` reduced to R6/R7 + R8 | Not started |
@@ -64,7 +64,7 @@ the other groups.
 
 - FW1 break-glass test with `easyrule` ([docs/14](docs/14-ext-phase-3-enforce-pam.md)).
 - Record: the `pam1` and `vault1` host keys pinned in Warpgate; the empty labadmin
-  `authorized_keys` on the five servers.
+  `authorized_keys` on the five servers; one complete root-generation ceremony.
 
 ## Known differences between the real configuration and the documents
 
@@ -81,7 +81,8 @@ Still open:
   and on IT, HR, FIN, REMOTE and DMZ; REMOTE also keeps a disabled, unnamed block rule in the
   middle of the list.
 - The comment above nginx's admin rule still names VPN_IT and IT1, which are no longer allowed.
-- Policy `vault-admin` lacks the `patch` capability on `secret/*` (`vault kv patch` falls back to read and write).
+- Break-glass entries `keycloak-kcadmin` and `labadmin-console` were stored with `username=admin`; replace with the right user names.
+- Vault starts sealed after every cold start; Warpgate SSH targets then fail until VAULT1 is unsealed on its console.
 - `vault login` prints the token; use `vault login -no-print` in recorded Warpgate sessions.
 - Five exported `.ovpn` profiles, each embedding a user's private key, are in the Windows
   `Downloads` folder; delete them once imported into the OpenVPN client.

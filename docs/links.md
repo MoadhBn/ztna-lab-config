@@ -119,6 +119,7 @@ Container images are pinned by digest in `nodes/appserver/home/labadmin/ztna/doc
 | HTTP domain binding | <https://warpgate.null.page/http-domain-binding/> | `fw1.pam.ztna.lab`, `kcadmin.pam.ztna.lab` |
 | Session approvals | <https://warpgate.null.page/approvals/> | Per-session approval for RADIUS1 (Extension Phase 2B) |
 | Access tickets | <https://warpgate.null.page/tickets/> | Time-limited access (Extension Phase 2B) |
+| Secret backends (Vault) | <https://warpgate.null.page/secret-backends/> | Backend `vault`, AppRole, allowed prefixes |
 | Recovering admin access | <https://warpgate.null.page/recovering-access/> | `warpgate recover-access` |
 | Production checklist | <https://warpgate.null.page/production-checklist/> | Hardening review |
 
@@ -130,6 +131,11 @@ Container images are pinned by digest in `nodes/appserver/home/labadmin/ztna/doc
 | HashiCorp security (PGP key) | <https://www.hashicorp.com/en/trust/security> | Download verification |
 | Integrated storage (raft) | <https://developer.hashicorp.com/vault/docs/configuration/storage/raft> | Configuration |
 | JWT/OIDC auth method | <https://developer.hashicorp.com/vault/docs/auth/jwt> | Keycloak login, role, redirect URI |
+| Agent templates | <https://developer.hashicorp.com/vault/docs/agent-and-proxy/agent/template> | Vault Agent on AppServer |
+| AppRole | <https://developer.hashicorp.com/vault/docs/auth/approle> | Machine identities `appserver`, `warpgate` |
+| Signed SSH certificates | <https://developer.hashicorp.com/vault/docs/secrets/ssh/signed-ssh-certificates> | CA for Warpgate's targets |
+| generate-root API | <https://developer.hashicorp.com/vault/api-docs/system/generate-root> | Conditionally unauthenticated in 2.x |
+| Server configuration | <https://developer.hashicorp.com/vault/docs/configuration> | `enable_unauthenticated_access` |
 
 ### Tool selection
 

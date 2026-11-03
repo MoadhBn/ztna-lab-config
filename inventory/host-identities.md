@@ -25,9 +25,10 @@ Get them on a node with:
 
 | Key | Fingerprint (SHA256) | Trusted by | Source |
 |---|---|---|---|
-| Warpgate on PAM1, `client-ed25519` | `ZyENO54SVtc/gM0crh22i8NtDICSDjCvlFL4SQhw4u0` | `pamops` on AppServer, RADIUS1 and LOG1, `from="10.10.60.10"` only | AppServer sshd log on LOG1, 2026-10-24; exported `authorized_keys`, 2026-10-30 |
-| Windows export key `ztna-export` (temporary, Extension Phase 3 removes it) | `P1uwJ06zM1+2YCvfOEy65Ar08mOLjReNEQ8ag346au4` | labadmin on AppServer, PAM1, RADIUS1 and LOG1, `from="10.10.50.49"` only | `ssh-keygen -lf` on Windows, 2026-10-30 |
+| Warpgate on PAM1, `client-ed25519` (retired in Phase 4D) | `ZyENO54SVtc/gM0crh22i8NtDICSDjCvlFL4SQhw4u0` | No server since 2026-11-02 (was `pamops` on all targets) | AppServer sshd log on LOG1, 2026-10-24; exported `authorized_keys`, 2026-10-30 |
+| Vault SSH CA `ssh-client-signer` (since Phase 4D) | `HGlS7uRA5x9oWSaJzwIJOAdRTa40S+pJTQvl2r3lyZQ` | `pamops` on AppServer, RADIUS1, LOG1, VAULT1, PAM1 (`TrustedUserCAKeys`); certificates limited to source `10.10.60.10`, `127.0.0.1` | `ssh-keygen -lf` on the servers, 2026-11-02 |
+| Windows export key `ztna-export` (retired in Phase 3) | `P1uwJ06zM1+2YCvfOEy65Ar08mOLjReNEQ8ag346au4` | None since Phase 3 (removed; key files deleted) | `ssh-keygen -lf` on Windows, 2026-10-30 |
 
-The five recorded host fingerprints are distinct, and so are the two recorded machine-ids. The
+The six recorded host fingerprints are distinct, and so are the three recorded machine-ids. The
 duplicate check on the other nodes was run on 2026-10-08 and reported clean; their values
 were not written down.

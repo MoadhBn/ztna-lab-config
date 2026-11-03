@@ -38,7 +38,9 @@ drwxr-xr-x root:root ./etc/rsyslog.d
 drwxr-xr-x root:root ./etc/ssh
 drwxr-xr-x root:root ./etc/ssh/sshd_config.d
 -rw-r--r-- root:root ./etc/ssh/sshd_config.d/00-ztna-hardening.conf
+-rw-r--r-- root:root ./etc/ssh/sshd_config.d/10-warpgate-ca.conf
 -rw------- root:root ./etc/ssh/sshd_config.d/50-cloud-init.conf
+-rw-r--r-- root:root ./etc/ssh/warpgate_ca.pub
 drwxr-xr-x root:root ./etc/ssl
 drwxr-xr-x root:root ./etc/ssl/ztna
 -rw-r--r-- root:root ./etc/ssl/ztna/appserver.crt
