@@ -1,0 +1,1 @@
+from="10.10.30.20",command="/usr/bin/sudo -n /usr/local/sbin/ztna-backup-export",restrict ztnabackup

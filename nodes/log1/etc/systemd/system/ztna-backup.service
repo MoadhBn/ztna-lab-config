@@ -1,0 +1,16 @@
+[Unit]
+Description=ZTNA nightly backup pull and signed log manifest (Extension Phase 5)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=ztnabackup
+Group=ztnabackup
+SupplementaryGroups=adm
+ExecStart=/usr/local/sbin/ztna-backup-job nightly
+# Read-only system except the backup store and /run (the sudo'd self-backup stages there).
+# No NoNewPrivileges: LOG1's own backup goes through its single sudo rule.
+ProtectSystem=strict
+ReadWritePaths=/var/backups/ztna /run /var/lib/ztnabackup
+PrivateTmp=yes

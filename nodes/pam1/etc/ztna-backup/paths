@@ -1,0 +1,20 @@
+# ztna-backup-export: what this node's backup contains (PAM1)
+/etc/ssh
+/etc/machine-id
+/etc/hostname
+/etc/hosts
+/etc/netplan
+/etc/chrony
+/etc/ufw
+/etc/sudoers.d
+/etc/warpgate.yaml
+/etc/warpgate-tls
+/etc/systemd/system/warpgate.service
+/var/lib/warpgate/recordings
+/usr/local/share/ca-certificates
+/etc/ztna-export.list
+/etc/ztna-backup/paths
+/etc/ztna-backup/backup-kek.pub
+/etc/ztna-backup/backup-kek.version
+/usr/local/sbin
+/home/pamops/.ssh

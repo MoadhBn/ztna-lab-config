@@ -1,0 +1,50 @@
+{
+  "request_id": "fe2c5d86-d658-6fd0-9c53-30d66b2c9faa",
+  "lease_id": "",
+  "lease_duration": 0,
+  "renewable": false,
+  "data": {
+    "alias_metadata": {},
+    "allowed_redirect_uris": [
+      "https://vault.pam.ztna.lab/ui/vault/auth/oidc/oidc/callback"
+    ],
+    "bound_audiences": [
+      "vault"
+    ],
+    "bound_claims": {
+      "groups": [
+        "it-admins"
+      ]
+    },
+    "bound_claims_type": "string",
+    "bound_subject": "",
+    "claim_mappings": null,
+    "clock_skew_leeway": 0,
+    "expiration_leeway": 0,
+    "groups_claim": "groups",
+    "max_age": 0,
+    "not_before_leeway": 0,
+    "oidc_scopes": [
+      "openid",
+      "email",
+      "profile"
+    ],
+    "role_type": "oidc",
+    "token_bound_cidrs": [],
+    "token_explicit_max_ttl": 0,
+    "token_max_ttl": 28800,
+    "token_no_default_policy": false,
+    "token_num_uses": 0,
+    "token_period": 0,
+    "token_policies": [
+      "vault-admin"
+    ],
+    "token_ttl": 3600,
+    "token_type": "default",
+    "user_claim": "email",
+    "user_claim_json_pointer": false,
+    "verbose_oidc_logging": false
+  },
+  "warnings": null,
+  "mount_type": "oidc"
+}

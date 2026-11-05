@@ -1,0 +1,17 @@
+# ztna-backup-export: what this node's backup contains (RADIUS1)
+/etc/ssh
+/etc/machine-id
+/etc/hostname
+/etc/hosts
+/etc/netplan
+/etc/chrony
+/etc/ufw
+/etc/sudoers.d
+/etc/rsyslog.d
+/etc/freeradius
+/etc/ztna-export.list
+/etc/ztna-backup/paths
+/etc/ztna-backup/backup-kek.pub
+/etc/ztna-backup/backup-kek.version
+/usr/local/sbin
+/home/pamops/.ssh

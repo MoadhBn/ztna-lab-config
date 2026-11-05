@@ -786,6 +786,76 @@
 		</rule>
 		<rule>
 			<id></id>
+			<tracker>1793736170</tracker>
+			<type>pass</type>
+			<interface>lan</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp</protocol>
+			<source>
+				<address>LOG_SERVER</address>
+			</source>
+			<destination>
+				<address>BACKUP_SOURCES</address>
+				<port>22</port>
+			</destination>
+			<log></log>
+			<descr><![CDATA[LOG1 backup pull (ztnabackup, forced command)]]></descr>
+			<updated>
+				<time>1793736170</time>
+				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
+			</updated>
+			<created>
+				<time>1793736170</time>
+				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
+			<tracker>1793736389</tracker>
+			<type>pass</type>
+			<interface>lan</interface>
+			<ipprotocol>inet</ipprotocol>
+			<tag></tag>
+			<tagged></tagged>
+			<max></max>
+			<max-src-nodes></max-src-nodes>
+			<max-src-conn></max-src-conn>
+			<max-src-states></max-src-states>
+			<statetimeout></statetimeout>
+			<statepolicy></statepolicy>
+			<statetype><![CDATA[keep state]]></statetype>
+			<os></os>
+			<protocol>tcp</protocol>
+			<source>
+				<address>LOG_SERVER</address>
+			</source>
+			<destination>
+				<address>VAULT_SERVER</address>
+				<port>8200</port>
+			</destination>
+			<log></log>
+			<descr><![CDATA[LOG1 to Vault (backup job)]]></descr>
+			<updated>
+				<time>1793736389</time>
+				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
+			</updated>
+			<created>
+				<time>1793736389</time>
+				<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
+			</created>
+		</rule>
+		<rule>
+			<id></id>
 			<tracker>1790338518</tracker>
 			<type>block</type>
 			<interface>lan</interface>
@@ -2078,6 +2148,13 @@
 			<descr><![CDATA[Warpgate’s web and SSH entry points]]></descr>
 			<detail><![CDATA[Entry added Sat, 24 Oct 2026 13:56:06 +0100||Entry added Sat, 24 Oct 2026 13:56:06 +0100]]></detail>
 		</alias>
+		<alias>
+			<name>BACKUP_SOURCES</name>
+			<type>host</type>
+			<address>APP_SERVER RADIUS_SERVER PAM_SERVER VAULT_SERVER</address>
+			<descr><![CDATA[Hosts pulled by the LOG1 backup job]]></descr>
+			<detail><![CDATA[Entry added Tue, 03 Nov 2026 21:01:40 +0100||Entry added Tue, 03 Nov 2026 21:01:40 +0100||Entry added Tue, 03 Nov 2026 21:01:40 +0100||Entry added Tue, 03 Nov 2026 21:01:40 +0100]]></detail>
+		</alias>
 	</aliases>
 	<proxyarp></proxyarp>
 	<cron>
@@ -2336,8 +2413,8 @@
 	<vlans></vlans>
 	<qinqs></qinqs>
 	<revision>
-		<time>1793548722</time>
-		<description><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1): Firewall: Rules - saved/edited a firewall rule.]]></description>
+		<time>1793736398</time>
+		<description><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1): Firewall: Rules - reordered firewall rules.]]></description>
 		<username><![CDATA[itadmin@10.10.60.10[10.10.50.49] (RADIUS/RADIUS1)]]></username>
 	</revision>
 	<gateways>

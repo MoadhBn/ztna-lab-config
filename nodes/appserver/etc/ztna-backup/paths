@@ -1,0 +1,24 @@
+# ztna-backup-export: what this node's backup contains (AppServer)
+/etc/ssh
+/etc/machine-id
+/etc/hostname
+/etc/hosts
+/etc/netplan
+/etc/chrony
+/etc/ufw
+/etc/sudoers.d
+/etc/rsyslog.d
+/etc/nginx
+/etc/ssl/ztna
+/etc/vault-agent/agent.hcl
+/etc/vault-agent/compose.env.ctmpl
+/etc/vault-agent/role-id
+/etc/systemd/system/vault-agent.service
+/home/labadmin/ztna/docker-compose.yml
+/home/labadmin/ztna/pin-images.sh
+/etc/ztna-export.list
+/etc/ztna-backup/paths
+/etc/ztna-backup/backup-kek.pub
+/etc/ztna-backup/backup-kek.version
+/usr/local/sbin
+/home/pamops/.ssh

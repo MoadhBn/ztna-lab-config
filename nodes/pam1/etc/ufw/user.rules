@@ -23,6 +23,9 @@
 ### tuple ### allow tcp 443,2222 0.0.0.0/0 any 10.10.30.10 in comment=50414d2066726f6d20495431
 -A ufw-user-input -p tcp -m multiport --dports 443,2222 -s 10.10.30.10 -j ACCEPT
 
+### tuple ### allow tcp 22 0.0.0.0/0 any 10.10.30.20 in comment=4261636b75702070756c6c2066726f6d204c4f473120287a746e616261636b75702c20666f7263656420636f6d6d616e6429
+-A ufw-user-input -p tcp --dport 22 -s 10.10.30.20 -j ACCEPT
+
 ### END RULES ###
 
 ### LOGGING ###

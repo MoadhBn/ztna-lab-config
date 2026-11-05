@@ -46,6 +46,9 @@ fi
 if [ "$out" = "-" ]; then
     tar -C "$stage" -czf - "$host"
 else
+    # A leftover archive owned by another user cannot be overwritten in /tmp, even by root
+    # (fs.protected_regular); it can be removed, so remove it first.
+    rm -f -- "$out"
     tar -C "$stage" -czf "$out" "$host"
     chown "${SUDO_USER:-root}": "$out"; chmod 600 "$out"
     echo "$out"

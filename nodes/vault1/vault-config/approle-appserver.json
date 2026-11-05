@@ -1,0 +1,31 @@
+{
+  "request_id": "d25e1b32-96ce-9a83-c1eb-ff57a4ee2013",
+  "lease_id": "",
+  "lease_duration": 0,
+  "renewable": false,
+  "data": {
+    "alias_metadata": {},
+    "bind_secret_id": true,
+    "local_secret_ids": false,
+    "secret_id_bound_cidrs": [
+      "172.16.0.10/32"
+    ],
+    "secret_id_num_uses": 0,
+    "secret_id_ttl": 0,
+    "token_bound_cidrs": [
+      "172.16.0.10"
+    ],
+    "token_explicit_max_ttl": 0,
+    "token_max_ttl": 14400,
+    "token_no_default_policy": false,
+    "token_num_uses": 0,
+    "token_period": 0,
+    "token_policies": [
+      "appserver-compose"
+    ],
+    "token_ttl": 3600,
+    "token_type": "default"
+  },
+  "warnings": null,
+  "mount_type": "approle"
+}

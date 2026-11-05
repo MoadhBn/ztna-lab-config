@@ -1,0 +1,37 @@
+{
+  "request_id": "32ffa117-ee0c-ffc1-28d7-d892e24f26a5",
+  "lease_id": "",
+  "lease_duration": 0,
+  "renewable": false,
+  "data": {
+    "algorithm_signer": "default",
+    "allow_bare_domains": false,
+    "allow_empty_principals": false,
+    "allow_host_certificates": false,
+    "allow_subdomains": false,
+    "allow_user_certificates": true,
+    "allow_user_key_ids": false,
+    "allowed_critical_options": "source-address,force-command",
+    "allowed_domains": "",
+    "allowed_domains_template": false,
+    "allowed_extensions": "",
+    "allowed_user_key_lengths": {},
+    "allowed_users": "ztnabackup",
+    "allowed_users_template": false,
+    "default_critical_options": {
+      "force-command": "/usr/bin/sudo -n /usr/local/sbin/ztna-backup-export",
+      "source-address": "10.10.30.20/32"
+    },
+    "default_extensions": {},
+    "default_extensions_template": false,
+    "default_user": "ztnabackup",
+    "default_user_template": false,
+    "key_id_format": "backup:{{role_name}}:{{public_key_hash}}",
+    "key_type": "ca",
+    "max_ttl": 600,
+    "not_before_duration": 30,
+    "ttl": 300
+  },
+  "warnings": null,
+  "mount_type": "ssh"
+}

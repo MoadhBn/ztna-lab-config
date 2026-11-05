@@ -1,0 +1,187 @@
+#!/bin/bash
+# ztna-backup-job - nightly backup and log-manifest job on LOG1 (Extension Phase 5).
+# Installed as /usr/local/sbin/ztna-backup-job (root, mode 755); runs as user ztnabackup
+# from ztna-backup.service (timer ztna-backup.timer).
+#
+#   ztna-backup-job logs             sign a manifest of yesterday's rotated logs
+#   ztna-backup-job backup           pull the encrypted backups of every node
+#   ztna-backup-job nightly          logs, then backup (what the timer runs)
+#   ztna-backup-job verify-logs FILE check a log manifest (signature, chain, contents)
+#
+# Credentials: AppRole "backup-job" (role-id and secret-id in /etc/ztna-backup/, bound to
+# 10.10.30.20). Its token can sign SSH certificates for principal ztnabackup (role "backup"),
+# read a raft snapshot, and sign/verify with Transit key manifest-sign. It cannot decrypt
+# any backup. For each node a fresh key pair is made and signed for 5 minutes, then deleted.
+set -euo pipefail
+# Stored files are ciphertext, wrapped keys and signed manifests: readable by all, so that
+# pamops can copy them off LOG1 through Warpgate. The credentials in /etc/ztna-backup are not.
+umask 022
+export LC_ALL=C
+# Started with "sudo -u ztnabackup" the job inherits the caller's directory (e.g. /home/pamops),
+# which it may not enter; find would then fail and stop the job. Work from / always.
+cd /
+CONF=/etc/ztna-backup
+VAULT=https://vault.ztna.lab:8200
+CA=/usr/local/share/ca-certificates/ztna-lab-ca.crt
+STORE=/var/backups/ztna
+MANIFESTS=$STORE/manifests
+KEEP_DAYS=14
+NODES="appserver:172.16.0.10 radius1:172.16.0.20 pam1:10.10.60.10 vault1:10.10.60.20"
+
+work=$(mktemp -d)
+trap 'rm -rf "$work"' EXIT
+
+# To syslog always; to the screen only when run by hand (under systemd, stdout also goes to the
+# journal, which would record every line twice).
+log() { logger -t ztna-backup -- "$*"; if [ -t 1 ]; then echo "$*"; fi; }
+json() { python3 -c 'import json,sys; d=json.load(sys.stdin)
+for k in sys.argv[1].split("."): d=d[k]
+print(str(d).rstrip("\n"))' "$1"; }   # Vault ends signed_key with a newline: no blank second line
+
+# ---- Vault ------------------------------------------------------------------------
+# The token is kept in a header file (mode 600 via umask/chmod), never in a command line.
+vault_login() {
+    printf '{"role_id":"%s","secret_id":"%s"}' "$(cat "$CONF/role-id")" "$(cat "$CONF/secret-id")" \
+      | curl -sS --fail-with-body --cacert "$CA" --data @- "$VAULT/v1/auth/approle/login" \
+      | json auth.client_token | { read -r t; printf 'X-Vault-Token: %s\n' "$t"; } > "$work/hdr"
+    chmod 600 "$work/hdr"
+}
+vault_post() {   # $1 = API path; JSON body on stdin
+    curl -sS --fail-with-body --cacert "$CA" -H @"$work/hdr" --data @- "$VAULT/v1/$1"
+}
+vault_revoke() {
+    [ -s "$work/hdr" ] && curl -sS --cacert "$CA" -H @"$work/hdr" -X POST \
+        "$VAULT/v1/auth/token/revoke-self" > /dev/null || true
+}
+prev_line() {    # "previous <file> <sha256>" or "previous none none"
+    if [ -n "$1" ]; then echo "previous $(basename "$1") $(sha256sum < "$1" | cut -d' ' -f1)"
+    else echo "previous none none"; fi
+}
+sign_b64() {     # sign stdin with Transit key manifest-sign, print vault:v1:...
+    printf '{"input":"%s"}' "$(base64 -w0)" | vault_post transit/sign/manifest-sign | json data.signature
+}
+
+# ---- Signed manifest of yesterday's logs ------------------------------------------------
+# logrotate (daily, delaycompress) leaves yesterday's complete files as *.log.1. The hash is
+# taken over the uncompressed content, so it stays valid after the file becomes .2.gz.
+# Each manifest names the hash of the previous one: deleting a manifest breaks the chain.
+cmd_logs() {
+    local day prev m files
+    day=$(date -d yesterday +%F)
+    m=$MANIFESTS/logs-$day.txt
+    [ -e "$m" ] && { log "logs manifest $day already exists"; return 0; }
+    prev=$(ls -1 "$MANIFESTS"/logs-*.txt 2>/dev/null | tail -n 1 || true)
+    files=$(find /var/log/ztna /var/log/ztna-detect -name '*.1' -type f 2>/dev/null | sort || true)
+    {
+        echo "ZTNA-LOG-MANIFEST1 host=$(hostname -s) day=$day made=$(date -u +%FT%TZ)"
+        prev_line "$prev"
+        for f in $files; do
+            printf '%s %s %s %s\n' "$(sha256sum < "$f" | cut -d' ' -f1)" "$(wc -l < "$f")" \
+                "$(date -u -r "$f" +%FT%TZ)" "${f%.1}"
+        done
+    } > "$work/m"
+    sign_b64 < "$work/m" > "$work/m.sig"
+    mv "$work/m" "$m"; mv "$work/m.sig" "$m.sig"
+    log "logs manifest $day signed: $(echo "$files" | grep -c . ) files"
+}
+
+cmd_verify_logs() {
+    local m=${1:?manifest file} sig valid bad=0 h n t base cand found prevname prevhash
+    sig=$(cat "$m.sig")
+    valid=$(printf '{"input":"%s","signature":"%s"}' "$(base64 -w0 < "$m")" "$sig" \
+            | vault_post transit/verify/manifest-sign | json data.valid)
+    echo "signature: $valid"; [ "$valid" = True ] || bad=1
+    read -r _ prevname prevhash < <(sed -n 2p "$m")
+    if [ "$prevhash" != none ]; then
+        if [ -f "$MANIFESTS/$prevname" ] && [ "$(sha256sum < "$MANIFESTS/$prevname" | cut -d' ' -f1)" = "$prevhash" ]; then
+            echo "chain: OK ($prevname)"
+        else echo "chain: BROKEN ($prevname)"; bad=1; fi
+    fi
+    while read -r h n t base; do
+        found=no
+        for cand in "$base".[0-9]*; do
+            [ -f "$cand" ] || continue
+            [ "$(zcat -f "$cand" | sha256sum | cut -d' ' -f1)" = "$h" ] && { found=$cand; break; }
+        done
+        if [ "$found" = no ]; then echo "ALTERED OR MISSING  $base ($n lines, $t)"; bad=1
+        else echo "OK  $found"; fi
+    done < <(tail -n +3 "$m")
+    return $bad
+}
+
+# ---- Backups -------------------------------------------------------------------------
+cmd_backup() {
+    local run dest name ip ok=0 fail=0 prev
+    # One folder and one manifest per run (UTC time in the name): a second run on the same day
+    # must not overwrite the first one's files, or the manifest chain would point to nothing.
+    run=$(date -u +%Y-%m-%dT%H%M%SZ)
+    dest=$STORE/$run
+    mkdir "$dest"
+    for entry in $NODES; do
+        name=${entry%%:*}; ip=${entry#*:}
+        rm -f "$work/id" "$work/id.pub" "$work/id-cert.pub"
+        ssh-keygen -q -t ed25519 -N '' -C "ztna-backup-$name" -f "$work/id"
+        if printf '{"public_key":"%s","valid_principals":"ztnabackup","ttl":"5m"}' "$(cat "$work/id.pub")" \
+             | vault_post ssh-client-signer/sign/backup | json data.signed_key > "$work/id-cert.pub" \
+           && ssh -n -i "$work/id" -o CertificateFile="$work/id-cert.pub" -o IdentitiesOnly=yes \
+                  -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$CONF/known_hosts" \
+                  -o ConnectTimeout=15 "ztnabackup@$ip" backup > "$dest/$name.bkp.part" \
+           && head -c 13 "$dest/$name.bkp.part" | grep -q '^ZTNA-BACKUP1 '; then
+            mv "$dest/$name.bkp.part" "$dest/$name.bkp"; ok=$((ok + 1)); log "backup $name OK $(stat -c %s "$dest/$name.bkp") bytes"
+        else
+            rm -f "$dest/$name.bkp.part"; fail=$((fail + 1)); log "backup $name FAILED"
+        fi
+    done
+    # Vault: raft snapshot through the API (already encrypted by Vault's barrier; wrapped again)
+    if curl -sS --fail --cacert "$CA" -H @"$work/hdr" "$VAULT/v1/sys/storage/raft/snapshot" \
+         | /usr/local/sbin/ztna-backup-export --stdin vault-raft > "$dest/vault-raft.bkp.part"; then
+        mv "$dest/vault-raft.bkp.part" "$dest/vault-raft.bkp"; ok=$((ok + 1)); log "backup vault-raft OK"
+    else rm -f "$dest/vault-raft.bkp.part"; fail=$((fail + 1)); log "backup vault-raft FAILED"; fi
+    # LOG1 itself (sudo rule for this exact command only)
+    if sudo -n /usr/local/sbin/ztna-backup-export > "$dest/log1.bkp.part"; then
+        mv "$dest/log1.bkp.part" "$dest/log1.bkp"; ok=$((ok + 1)); log "backup log1 OK"
+    else rm -f "$dest/log1.bkp.part"; fail=$((fail + 1)); log "backup log1 FAILED"; fi
+
+    # Signed manifest of the backup set, chained like the log manifests
+    prev=$(ls -1 "$MANIFESTS"/backup-*.txt 2>/dev/null | tail -n 1 || true)
+    {
+        echo "ZTNA-BACKUP-MANIFEST1 run=$run made=$(date -u +%FT%TZ) ok=$ok failed=$fail"
+        prev_line "$prev"
+        ( cd "$dest" && sha256sum -- *.bkp 2>/dev/null || true )
+    } > "$work/b"
+    sign_b64 < "$work/b" > "$work/b.sig"
+    mv "$work/b" "$MANIFESTS/backup-$run.txt"
+    mv "$work/b.sig" "$MANIFESTS/backup-$run.txt.sig"
+
+    find "$STORE" -mindepth 1 -maxdepth 1 -type d -name '20??-??-??*' -mtime +"$KEEP_DAYS" -exec rm -rf {} +
+    log "backup set $run: $ok OK, $fail failed"
+    [ "$fail" -eq 0 ]
+}
+
+# ---- Negative tests: show what Vault answers to requests the job must NOT be able to make
+cmd_probe() {
+    case "${1:-}" in
+        sign)    # certificate for a principal: refused for anything but ztnabackup;
+                 # for ztnabackup the certificate's options are printed (key deleted on exit)
+            ssh-keygen -q -t ed25519 -N '' -f "$work/p"
+            if printf '{"public_key":"%s","valid_principals":"%s","ttl":"5m"}' "$(cat "$work/p.pub")" "${2:?principal}" \
+                 | vault_post ssh-client-signer/sign/backup > "$work/r"; then
+                json data.signed_key < "$work/r" > "$work/p-cert.pub"; ssh-keygen -Lf "$work/p-cert.pub"
+            else head -c 300 "$work/r"; echo; fi ;;
+        decrypt) # unwrap the passphrase of a backup (expected: permission denied)
+            printf '{"ciphertext":"%s"}' "$(sed -n 2p "${2:?backup file}")" \
+              | vault_post transit/decrypt/backup-kek | head -c 300; echo ;;
+        *) echo "usage: $0 probe sign PRINCIPAL | probe decrypt FILE" >&2; return 2 ;;
+    esac
+}
+
+vault_login
+trap 'vault_revoke; rm -rf "$work"' EXIT
+case "${1:-}" in
+    logs)        cmd_logs ;;
+    backup)      cmd_backup ;;
+    nightly)     rc=0; cmd_logs || rc=1; cmd_backup || rc=1; exit $rc ;;
+    verify-logs) cmd_verify_logs "${2:-}" ;;
+    probe)       shift; cmd_probe "$@" || true ;;
+    *)           echo "usage: $0 logs|backup|nightly|verify-logs FILE|probe ..." >&2; exit 2 ;;
+esac

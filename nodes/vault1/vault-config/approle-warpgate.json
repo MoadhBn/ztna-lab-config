@@ -1,0 +1,31 @@
+{
+  "request_id": "4c380bb5-e0ef-f365-5b42-fb02cb4d9dc4",
+  "lease_id": "",
+  "lease_duration": 0,
+  "renewable": false,
+  "data": {
+    "alias_metadata": {},
+    "bind_secret_id": true,
+    "local_secret_ids": false,
+    "secret_id_bound_cidrs": [
+      "10.10.60.10/32"
+    ],
+    "secret_id_num_uses": 0,
+    "secret_id_ttl": 0,
+    "token_bound_cidrs": [
+      "10.10.60.10"
+    ],
+    "token_explicit_max_ttl": 0,
+    "token_max_ttl": 14400,
+    "token_no_default_policy": false,
+    "token_num_uses": 0,
+    "token_period": 0,
+    "token_policies": [
+      "warpgate-ssh"
+    ],
+    "token_ttl": 3600,
+    "token_type": "default"
+  },
+  "warnings": null,
+  "mount_type": "approle"
+}

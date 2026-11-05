@@ -54,7 +54,7 @@ itadmin ─► Warpgate (PAM1) ── AppRole "warpgate" (from 10.10.60.10 only)
 | Policy `warpgate-ssh` | `update` on `ssh-client-signer/sign/warpgate` |
 | AppRole `warpgate` | Role-id `14f9c2b8-2fcb-c2f3-81bf-8629ea2c5c0e`; secret-id and token bound to `10.10.60.10/32`; token 1 h (max 4 h) |
 | Transit | Engine `transit/`, key `backup` |
-| Break-glass entries | `secret/breakglass/pfsense-admin`, `warpgate-admin`, `keycloak-kcadmin`, `labadmin-console` (each version 1, 2 November 11:56–11:58 UTC) |
+| Break-glass entries | `secret/breakglass/pfsense-admin`, `warpgate-admin`, `keycloak-kcadmin`, `labadmin-console` (version 1, 2 November 11:56–11:58 UTC; rewritten as version 2 on 3 November 17:02–17:04 UTC, see Findings) |
 | Configuration | `enable_unauthenticated_access = ["generate-root"]` in `vault.hcl`, applied with `systemctl reload vault` (no reseal) |
 
 ### Warpgate
@@ -86,7 +86,7 @@ itadmin ─► Warpgate (PAM1) ── AppRole "warpgate" (from 10.10.60.10 only)
 | 6 | Administrator reads a break-glass entry | `permission denied` | **Verified** (`403`) |
 | 7 | Administrator lists break-glass entries | Names only | **Verified** (four names) |
 | 8 | Root generation without login, before the configuration change | Refused in Vault 2.x | **Verified** (`403 permission denied` on `sys/generate-root/attempt`) |
-| 9 | Root generation after the change, reading a break-glass username, revoking the root token | Works | Reported; the audit log shows calls to `sys/generate-root/attempt`, but the ceremony itself was not recorded |
+| 9 | Root generation after the change, reading a break-glass username, revoking the root token | Works | **Verified** (3 November, VAULT1 serial console): with the generated root token the four entries return `admin`, `admin`, `kcadmin`, `labadmin`; audit log shows `sys/generate-root/attempt` and `update` calls and the reads of `secret/data/breakglass/…`. Version 1 destroyed: **Verified** (`vault kv metadata get` for `pfsense-admin`: version 1 `destroyed true`, version 2 `false`; audit log: `secret/destroy/breakglass/…` for all four entries); root token revoked: **Verified** (`auth/token/revoke-self` in the audit log) |
 | 10 | Exports through Warpgate with certificates | Archives downloaded | **Verified** (five archives, 3 November) |
 
 ## Problems met and how they were solved
@@ -103,9 +103,15 @@ itadmin ─► Warpgate (PAM1) ── AppRole "warpgate" (from 10.10.60.10 only)
   standing credential: Warpgate's web targets keep working, SSH targets need Vault. After a
   cold start of the lab, the first step is to unseal VAULT1 on its console. Suspending the
   EVE-NG VM instead of shutting it down keeps Vault unsealed.
-- **The break-glass entries `keycloak-kcadmin` and `labadmin-console` were stored with
-  `username=admin`.** Correct with `vault kv put` (administrators can replace them, not read
-  them) using `kcadmin` and `labadmin`.
+- **The first break-glass entries did not match the real accounts** (other attributes; `keycloak-kcadmin`
+  and `labadmin-console` had `username=admin`). On 3 November all four were rewritten with the real
+  user name and current password of each account, keys `username` and `password` (plus a `note` on
+  `keycloak-kcadmin`: the OTP device is also needed, otherwise `kc.sh bootstrap-admin`). Passwords
+  were entered at a hidden prompt and turned into JSON by Python, so they appear in no recording or
+  history. **Verified**: `vault kv put` output, version 2 of each, created 17:02:14 (`pfsense-admin`),
+  17:02:50 (`warpgate-admin`), 17:03:37 (`keycloak-kcadmin`), 17:04:06 UTC (`labadmin-console`, one
+  password for `labadmin` on all servers). The real accounts were not changed. Version 1 stays in the
+  history until destroyed with a root token (during the ceremony).
 - **A vendor default tightened between versions** (root generation in Vault 2.x). The
   break-glass design had to state its requirement explicitly in the configuration rather than
   rely on the old behaviour.

@@ -1,0 +1,19 @@
+# ztna-backup-export: what this node's backup contains (VAULT1)
+/etc/ssh
+/etc/machine-id
+/etc/hostname
+/etc/hosts
+/etc/netplan
+/etc/chrony
+/etc/ufw
+/etc/sudoers.d
+/etc/fstab
+/etc/vault.d
+/etc/systemd/system/vault.service
+/usr/local/share/ca-certificates
+/etc/ztna-export.list
+/etc/ztna-backup/paths
+/etc/ztna-backup/backup-kek.pub
+/etc/ztna-backup/backup-kek.version
+/usr/local/sbin
+/home/pamops/.ssh

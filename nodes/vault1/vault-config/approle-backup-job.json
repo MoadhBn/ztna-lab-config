@@ -1,0 +1,31 @@
+{
+  "request_id": "e8f83777-a59d-8305-424c-ef678742c64f",
+  "lease_id": "",
+  "lease_duration": 0,
+  "renewable": false,
+  "data": {
+    "alias_metadata": {},
+    "bind_secret_id": true,
+    "local_secret_ids": false,
+    "secret_id_bound_cidrs": [
+      "10.10.30.20/32"
+    ],
+    "secret_id_num_uses": 0,
+    "secret_id_ttl": 0,
+    "token_bound_cidrs": [
+      "10.10.30.20"
+    ],
+    "token_explicit_max_ttl": 0,
+    "token_max_ttl": 1800,
+    "token_no_default_policy": false,
+    "token_num_uses": 0,
+    "token_period": 0,
+    "token_policies": [
+      "backup-job"
+    ],
+    "token_ttl": 900,
+    "token_type": "default"
+  },
+  "warnings": null,
+  "mount_type": "approle"
+}

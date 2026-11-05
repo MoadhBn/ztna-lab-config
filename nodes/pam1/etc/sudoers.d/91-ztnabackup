@@ -1,0 +1,1 @@
+ztnabackup ALL=(root) NOPASSWD: /usr/local/sbin/ztna-backup-export ""

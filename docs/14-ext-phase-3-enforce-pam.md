@@ -1,7 +1,7 @@
 # Extension Phase 3: Warpgate as the only administrative path
 
 **Date:** 31 October to 1 November 2026. **Commit:** the commit that adds this file.
-**State:** done; negative tests run on 1 November; the FW1 break-glass test is still to be run. Previous phase: [13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md).
+**State:** done; negative tests run on 1 November; FW1 break-glass test run on 3 November. Previous phase: [13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md).
 
 ## Goal
 
@@ -99,7 +99,7 @@ account can read it. `-o User=` is needed because `scp` would read the `:` in
 | N4 | `curl https://10.10.30.1` from IT1 | Unreachable | **Verified** (no answer; interrupted) |
 | N5 | `https://auth.ztna.lab/admin/` over the itadmin VPN | `403` | **Verified** |
 | N6 | `Test-NetConnection 10.10.30.20 -Port 22` over the reconnected itadmin VPN | Fails | **Verified** (`TcpTestSucceeded False`) |
-| BG | FW1 break-glass with `easyrule` | GUI reachable, then closed again | **Not run yet** |
+| BG | FW1 break-glass with `easyrule` | GUI reachable, then closed again | **Verified** (3 November): WAN rule "Passed via EasyRule" `192.168.78.1 → 192.168.78.20:443` with 1 state / 1.81 MiB (the GUI was reached through it); after deletion the WAN tab shows only the bogon block, the disabled ADMIN_PC GUI rule and the OpenVPN rule; `https://192.168.78.20` from Windows → `ERR_CONNECTION_TIMED_OUT` |
 
 ## Problems met and how they were solved
 
@@ -111,7 +111,7 @@ account can read it. `-o User=` is needed because `scp` would read the `:` in
 
 ## Still open
 
-- Run the FW1 break-glass test. Until it is done, a broken
+- ~~Run the FW1 break-glass test~~ (done 3 November). Before that, a broken
   Warpgate path to `fw1-gui` would have to be recovered with a procedure never tried.
 - Record tests 6 and 7.
 - Make a new encrypted FW1 backup: the last one (31 October 19:50) may predate the Step 4

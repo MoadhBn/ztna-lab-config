@@ -36,9 +36,13 @@ drwxr-xr-x root:root ./etc/rsyslog.d
 -rw-r--r-- root:root ./etc/rsyslog.d/50-default.conf
 -rw-r--r-- root:root ./etc/rsyslog.d/90-forward-ztna.conf
 drwxr-xr-x root:root ./etc/ssh
+drwxr-xr-x root:root ./etc/ssh/auth_principals
+-rw-r--r-- root:root ./etc/ssh/auth_principals/pamops
+-rw-r--r-- root:root ./etc/ssh/auth_principals/ztnabackup
 drwxr-xr-x root:root ./etc/ssh/sshd_config.d
 -rw-r--r-- root:root ./etc/ssh/sshd_config.d/00-ztna-hardening.conf
 -rw-r--r-- root:root ./etc/ssh/sshd_config.d/10-warpgate-ca.conf
+-rw-r--r-- root:root ./etc/ssh/sshd_config.d/11-principals.conf
 -rw------- root:root ./etc/ssh/sshd_config.d/50-cloud-init.conf
 -rw-r--r-- root:root ./etc/ssh/warpgate_ca.pub
 drwxr-xr-x root:root ./etc/ssl
@@ -47,6 +51,7 @@ drwxr-xr-x root:root ./etc/ssl/ztna
 -rw-r--r-- root:root ./etc/ssl/ztna/ztna-ca.crt
 drwxr-xr-x root:root ./etc/sudoers.d
 -r--r----- root:root ./etc/sudoers.d/90-pamops
+-r--r----- root:root ./etc/sudoers.d/91-ztnabackup
 drwxr-xr-x root:root ./etc/systemd
 drwxr-xr-x root:root ./etc/systemd/system
 -rw-r--r-- root:root ./etc/systemd/system/vault-agent.service
@@ -55,6 +60,9 @@ drwxr-xr-x root:root ./etc/ufw
 drwx------ root:root ./etc/vault-agent
 -rw------- root:root ./etc/vault-agent/agent.hcl
 -rw------- root:root ./etc/vault-agent/compose.env.ctmpl
+drwxr-xr-x root:root ./etc/ztna-backup
+-rw-r--r-- root:root ./etc/ztna-backup/backup-kek.pub
+-rw-r--r-- root:root ./etc/ztna-backup/paths
 drwxr-xr-x root:root ./home
 drwxr-x--- labadmin:labadmin ./home/labadmin
 drwxrwxr-x labadmin:labadmin ./home/labadmin/ztna

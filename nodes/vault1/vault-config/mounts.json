@@ -1,0 +1,149 @@
+{
+  "agent-registry/": {
+    "uuid": "bc2cbda6-53fb-7abd-944d-2e81026ca9bf",
+    "type": "agent_registry",
+    "description": "agent registry",
+    "accessor": "agent-registry_319a70b1",
+    "config": {
+      "default_lease_ttl": 0,
+      "max_lease_ttl": 0,
+      "force_no_cache": false,
+      "passthrough_request_headers": [
+        "Authorization"
+      ]
+    },
+    "options": null,
+    "local": false,
+    "seal_wrap": false,
+    "external_entropy_access": false,
+    "plugin_version": "",
+    "running_plugin_version": "v2.2.1+builtin.vault",
+    "running_sha256": "",
+    "deprecation_status": ""
+  },
+  "cubbyhole/": {
+    "uuid": "e9242071-9100-6ab0-f80d-2d02e8523534",
+    "type": "cubbyhole",
+    "description": "per-token private secret storage",
+    "accessor": "cubbyhole_88a44698",
+    "config": {
+      "default_lease_ttl": 0,
+      "max_lease_ttl": 0,
+      "force_no_cache": false
+    },
+    "options": null,
+    "local": true,
+    "seal_wrap": false,
+    "external_entropy_access": false,
+    "plugin_version": "",
+    "running_plugin_version": "v2.2.1+builtin.vault",
+    "running_sha256": "",
+    "deprecation_status": ""
+  },
+  "identity/": {
+    "uuid": "af95bf09-803b-2782-e685-7a9f42f2ee8c",
+    "type": "identity",
+    "description": "identity store",
+    "accessor": "identity_719802d5",
+    "config": {
+      "default_lease_ttl": 0,
+      "max_lease_ttl": 0,
+      "force_no_cache": false,
+      "passthrough_request_headers": [
+        "Authorization"
+      ],
+      "allowed_response_headers": [
+        "Location"
+      ]
+    },
+    "options": null,
+    "local": false,
+    "seal_wrap": false,
+    "external_entropy_access": false,
+    "plugin_version": "",
+    "running_plugin_version": "v2.2.1+builtin.vault",
+    "running_sha256": "",
+    "deprecation_status": ""
+  },
+  "secret/": {
+    "uuid": "de3eb7a4-2c97-b0d1-c2f1-b0d6290fc9ca",
+    "type": "kv",
+    "description": "",
+    "accessor": "kv_70e5c3aa",
+    "config": {
+      "default_lease_ttl": 0,
+      "max_lease_ttl": 0,
+      "force_no_cache": false
+    },
+    "options": {
+      "version": "2"
+    },
+    "local": false,
+    "seal_wrap": false,
+    "external_entropy_access": false,
+    "plugin_version": "",
+    "running_plugin_version": "v0.27.0+builtin",
+    "running_sha256": "",
+    "deprecation_status": "supported"
+  },
+  "ssh-client-signer/": {
+    "uuid": "daed5564-fe59-4a72-0cd1-f02a5d9c7403",
+    "type": "ssh",
+    "description": "",
+    "accessor": "ssh_a2fbfc6f",
+    "config": {
+      "default_lease_ttl": 0,
+      "max_lease_ttl": 0,
+      "force_no_cache": false
+    },
+    "options": null,
+    "local": false,
+    "seal_wrap": false,
+    "external_entropy_access": false,
+    "plugin_version": "",
+    "running_plugin_version": "v2.2.1+builtin.vault",
+    "running_sha256": "",
+    "deprecation_status": "supported"
+  },
+  "sys/": {
+    "uuid": "0eadad62-6b4f-5a04-05dd-bf6b7f588344",
+    "type": "system",
+    "description": "system endpoints used for control, policy and debugging",
+    "accessor": "system_3b747d92",
+    "config": {
+      "default_lease_ttl": 0,
+      "max_lease_ttl": 0,
+      "force_no_cache": false,
+      "passthrough_request_headers": [
+        "Accept"
+      ]
+    },
+    "options": null,
+    "local": false,
+    "seal_wrap": true,
+    "external_entropy_access": false,
+    "plugin_version": "",
+    "running_plugin_version": "v2.2.1+builtin.vault",
+    "running_sha256": "",
+    "deprecation_status": ""
+  },
+  "transit/": {
+    "uuid": "a6bb72c0-2223-b3a4-6c7f-e3b2d265b514",
+    "type": "transit",
+    "description": "",
+    "accessor": "transit_443195b4",
+    "config": {
+      "default_lease_ttl": 0,
+      "max_lease_ttl": 0,
+      "force_no_cache": false
+    },
+    "options": null,
+    "local": false,
+    "seal_wrap": false,
+    "external_entropy_access": false,
+    "plugin_version": "",
+    "running_plugin_version": "v2.2.1+builtin.vault",
+    "running_sha256": "",
+    "deprecation_status": "supported"
+  }
+}

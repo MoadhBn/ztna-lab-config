@@ -1,0 +1,38 @@
+{
+  "request_id": "f6894e59-49e7-9efc-00ba-bff41ea606aa",
+  "lease_id": "",
+  "lease_duration": 0,
+  "renewable": false,
+  "data": {
+    "algorithm_signer": "default",
+    "allow_bare_domains": false,
+    "allow_empty_principals": false,
+    "allow_host_certificates": false,
+    "allow_subdomains": false,
+    "allow_user_certificates": true,
+    "allow_user_key_ids": true,
+    "allowed_critical_options": "",
+    "allowed_domains": "",
+    "allowed_domains_template": false,
+    "allowed_extensions": "",
+    "allowed_user_key_lengths": {},
+    "allowed_users": "pamops",
+    "allowed_users_template": false,
+    "default_critical_options": {
+      "source-address": "10.10.60.10/32,127.0.0.1/32"
+    },
+    "default_extensions": {
+      "permit-pty": ""
+    },
+    "default_extensions_template": false,
+    "default_user": "pamops",
+    "default_user_template": false,
+    "key_id_format": "",
+    "key_type": "ca",
+    "max_ttl": 600,
+    "not_before_duration": 30,
+    "ttl": 300
+  },
+  "warnings": null,
+  "mount_type": "ssh"
+}

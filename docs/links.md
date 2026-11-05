@@ -20,6 +20,7 @@ the lab or over the VPN, not from the open internet.
 | Keycloak admin console through Warpgate | `https://kcadmin.pam.ztna.lab/admin/` | IT1 and `VPN_IT`, Warpgate role `ops` | Warpgate SSO, then `kcadmin` + OTP |
 
 | Vault UI through Warpgate | `https://vault.pam.ztna.lab` | IT1 and `VPN_IT`, Warpgate role `ops` | Warpgate SSO, then Vault method OIDC (Keycloak, group `it-admins`) |
+| Backup restore (Vault UI) | `https://vault.pam.ztna.lab/ui/vault/secrets-engines/transit/show/backup-kek` | As above | OIDC with Role `backup-restore` (30 min), then Key actions → Decrypt |
 
 **Planned:** the Wazuh dashboard at `https://wazuh.pam.ztna.lab` (Extension Phase 7).
 
@@ -135,6 +136,10 @@ Container images are pinned by digest in `nodes/appserver/home/labadmin/ztna/doc
 | AppRole | <https://developer.hashicorp.com/vault/docs/auth/approle> | Machine identities `appserver`, `warpgate` |
 | Signed SSH certificates | <https://developer.hashicorp.com/vault/docs/secrets/ssh/signed-ssh-certificates> | CA for Warpgate's targets |
 | generate-root API | <https://developer.hashicorp.com/vault/api-docs/system/generate-root> | Conditionally unauthenticated in 2.x |
+| Transit API | <https://developer.hashicorp.com/vault/api-docs/secret/transit> | `backup-kek` (RSA-OAEP decrypt), `manifest-sign` (Ed25519 sign/verify) (Phase 5) |
+| SSH secrets engine API | <https://developer.hashicorp.com/vault/api-docs/secret/ssh> | Role `backup`: critical options and their defaults (Phase 5) |
+| Raft storage API | <https://developer.hashicorp.com/vault/api-docs/system/storage/raft> | Snapshot taken by the backup job (Phase 5) |
+| OpenSSH `sshd_config` | <https://man.openbsd.org/sshd_config> | `AuthorizedPrincipalsFile` with `from=`/`command=` (Phase 5) |
 | Server configuration | <https://developer.hashicorp.com/vault/docs/configuration> | `enable_unauthenticated_access` |
 
 ### Tool selection

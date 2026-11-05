@@ -1,0 +1,72 @@
+#!/bin/bash
+# ztna-backup-export - full, encrypted state backup of this node, written to stdout.
+# Installed as /usr/local/sbin/ztna-backup-export (root, mode 755) on AppServer, RADIUS1,
+# PAM1, VAULT1 and LOG1 (Extension Phase 5).
+#
+# Unlike ztna-config-export (sanitised, for Git), this archive holds everything needed to
+# rebuild the node, secrets included. It is therefore encrypted HERE, before it leaves the
+# host: a random 256-bit passphrase encrypts the archive (AES-256-CBC, PBKDF2), and the
+# passphrase is wrapped with the public half of Vault's Transit key backup-kek
+# (RSA-4096, OAEP, SHA-256). Only Vault can unwrap it (policy backup-restore). The backup job
+# on LOG1 only ever receives ciphertext. Plaintext dumps are staged in /run (RAM) only.
+#
+# Usage:
+#   sudo ztna-backup-export            collect this node (paths in /etc/ztna-backup/paths)
+#   ztna-backup-export --stdin NAME    encrypt standard input as NAME (no root needed;
+#                                      LOG1 uses it for the Vault raft snapshot)
+#
+# Output format (one stream):
+#   line 1  ZTNA-BACKUP1 <name> <UTC time> backup-kek:v<version>
+#   line 2  vault:v<version>:<base64 RSA-OAEP ciphertext of the passphrase>
+#   rest    openssl enc -aes-256-cbc -pbkdf2 output (gzip-compressed tar inside)
+set -euo pipefail
+umask 077
+CONF=/etc/ztna-backup
+PUB=$CONF/backup-kek.pub
+KEYVER=$(cat "$CONF/backup-kek.version")
+
+encrypt_stdin() {   # $1 = name shown in the header
+    local pass
+    pass=$(openssl rand -hex 32)
+    printf 'ZTNA-BACKUP1 %s %s backup-kek:v%s\n' "$1" "$(date -u +%FT%TZ)" "$KEYVER"
+    # printf is a shell builtin: the passphrase never appears in a process argument list
+    printf 'vault:v%s:%s\n' "$KEYVER" "$(printf '%s' "$pass" | openssl pkeyutl -encrypt -pubin -inkey "$PUB" \
+        -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -pkeyopt rsa_mgf1_md:sha256 | base64 -w0)"
+    openssl enc -aes-256-cbc -pbkdf2 -iter 100000 -salt -pass fd:3 3< <(printf '%s' "$pass")
+}
+
+if [ "${1:-}" = "--stdin" ]; then
+    encrypt_stdin "${2:?name required}"
+    exit 0
+fi
+
+[ "$(id -u)" -eq 0 ] || { echo "run with sudo" >&2; exit 1; }
+host=$(hostname -s)
+stage=$(mktemp -d -p /run ztna-backup.XXXXXX)
+trap 'rm -rf "$stage"' EXIT
+dumps=$stage/ztna-dumps
+mkdir "$dumps"
+
+# Consistent dumps of live databases (copying their files while they run is unsafe)
+case "$host" in
+    appserver)
+        docker exec ztna-db-1 pg_dump -U keycloak -Fc keycloak > "$dumps/keycloak.pgdump" ;;
+    pam1)
+        db=/var/lib/warpgate/db
+        [ -d "$db" ] && db=$db/db.sqlite3
+        python3 - "$db" "$dumps/warpgate.sqlite3" <<'PY'
+import sqlite3, sys
+src = sqlite3.connect(f"file:{sys.argv[1]}?mode=ro", uri=True)
+dst = sqlite3.connect(sys.argv[2])
+src.backup(dst)           # SQLite online backup: consistent while Warpgate runs
+dst.close(); src.close()
+PY
+        ;;
+esac
+
+# Paths are stored relative to /; dumps under ztna-dumps/. tar exit code 1 only means
+# "a file changed while being read" (live logs): accepted; anything above 1 aborts.
+grep -vE '^[[:space:]]*(#|$)' "$CONF/paths" | sed 's#^/##' > "$stage/list"
+{ tar -czf - --ignore-failed-read --warning=no-file-changed \
+      -C "$stage" ztna-dumps -C / -T "$stage/list" || [ $? -eq 1 ]; } \
+  | encrypt_stdin "$host"

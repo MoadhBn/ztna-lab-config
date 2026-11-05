@@ -27,6 +27,8 @@ Get them on a node with:
 |---|---|---|---|
 | Warpgate on PAM1, `client-ed25519` (retired in Phase 4D) | `ZyENO54SVtc/gM0crh22i8NtDICSDjCvlFL4SQhw4u0` | No server since 2026-11-02 (was `pamops` on all targets) | AppServer sshd log on LOG1, 2026-10-24; exported `authorized_keys`, 2026-10-30 |
 | Vault SSH CA `ssh-client-signer` (since Phase 4D) | `HGlS7uRA5x9oWSaJzwIJOAdRTa40S+pJTQvl2r3lyZQ` | `pamops` on AppServer, RADIUS1, LOG1, VAULT1, PAM1 (`TrustedUserCAKeys`); certificates limited to source `10.10.60.10`, `127.0.0.1` | `ssh-keygen -lf` on the servers, 2026-11-02 |
+| Vault Transit key `backup-kek` (RSA 4096, Extension Phase 5): public key | DER SHA-256 `abe9afef4ad1f8cb1a440ee953ea5268f035093f07438a0591cf729627166d47` | Every server encrypts its backup with it; only Vault decrypts (policy `backup-restore`) | VAULT1 output and `nodes/vault1/vault-config/backup-kek.pub`, 2026-11-03 |
+| Vault Transit key `manifest-sign` (Ed25519, Extension Phase 5), version 1: public key | DER SHA-256 `728a565273b3aa36da8b2fada46d5b143d35e37c1da0f2d015e4a109fbec002a` (raw key `SCFYkzXioXjFi2QrqIWmuTTXUHDTqrH+X+mu3wvnSnY=`) | Anyone verifying a log or backup manifest, offline with OpenSSL | `vault read transit/keys/manifest-sign` on VAULT1, 2026-11-05; `nodes/vault1/vault-config/manifest-sign.pub.pem` |
 | Windows export key `ztna-export` (retired in Phase 3) | `P1uwJ06zM1+2YCvfOEy65Ar08mOLjReNEQ8ag346au4` | None since Phase 3 (removed; key files deleted) | `ssh-keygen -lf` on Windows, 2026-10-30 |
 
 The six recorded host fingerprints are distinct, and so are the three recorded machine-ids. The

@@ -32,6 +32,17 @@ it was written and is now out of date. The design changes as follows:
   the static key. Humans still never hold a server credential; Warpgate's own standing
   credential disappears too.
 
+### Update, 3 November 2026 (Extension Phase 5)
+
+Two roadmap items were reversed after checking the real configuration:
+
+- The backup job does not pull `ztna-config-export`: that export is sanitised and cannot restore
+  a server. A second script, `ztna-backup-export`, makes the full backup.
+- The backups are not envelope-encrypted by the job with the AES Transit key `backup`: the job
+  would then hold every plaintext. Each server encrypts its own archive with the public half of
+  the RSA Transit key `backup-kek`; only Vault (OIDC role `backup-restore`) can unwrap a
+  passphrase. The key `backup` stays unused.
+
 ## Abandoned design
 
 Warpgate installed in the IT segment at 10.10.30.30: traffic between IT1 and a gateway in
@@ -72,7 +83,7 @@ the SEC segment before anything was installed.
 | 2B | Part 1: other SSH targets, approvals, tickets evaluated ([12-ext-phase-2b-targets-approvals.md](12-ext-phase-2b-targets-approvals.md)); part 2: web targets ([13-ext-phase-2b-web-targets.md](13-ext-phase-2b-web-targets.md)) | Done |
 | 3 | Enforce PAM: remove direct SSH and GUI paths ([14-ext-phase-3-enforce-pam.md](14-ext-phase-3-enforce-pam.md)) | Done |
 | 4 | Vault on VAULT1: 4A-4B server and admin access ([15-ext-phase-4ab-vault.md](15-ext-phase-4ab-vault.md)); 4C application secrets ([16-ext-phase-4c-app-secrets.md](16-ext-phase-4c-app-secrets.md)); 4D SSH CA for Warpgate, break-glass, Transit ([17-ext-phase-4d-ssh-ca-transit-breakglass.md](17-ext-phase-4d-ssh-ca-transit-breakglass.md)) | Done |
-| 5 | Encrypted backups, signed log manifests, restore drill | Not started |
+| 5 | Encrypted backups, signed log manifests, restore drill ([18-ext-phase-5-backups.md](18-ext-phase-5-backups.md)) | Done |
 | 6 | Audit integration: Warpgate, Vault, sudo, auditd into LOG1; feed to Wazuh | Not started |
 | 7 | Wazuh VM: agents, decoders, rules | Not started |
 | 8 | AI triage, advisory only | Not started |

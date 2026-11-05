@@ -26,6 +26,12 @@
 ### tuple ### allow tcp 8200 0.0.0.0/0 any 172.16.0.10 in comment=5661756c74204150492066726f6d2041707053657276657220284167656e7429
 -A ufw-user-input -p tcp --dport 8200 -s 172.16.0.10 -j ACCEPT
 
+### tuple ### allow tcp 8200 0.0.0.0/0 any 10.10.30.20 in comment=5661756c74204150492066726f6d204c4f473120286261636b7570206a6f6229
+-A ufw-user-input -p tcp --dport 8200 -s 10.10.30.20 -j ACCEPT
+
+### tuple ### allow tcp 22 0.0.0.0/0 any 10.10.30.20 in comment=4261636b75702070756c6c2066726f6d204c4f473120287a746e616261636b75702c20666f7263656420636f6d6d616e6429
+-A ufw-user-input -p tcp --dport 22 -s 10.10.30.20 -j ACCEPT
+
 ### END RULES ###
 
 ### LOGGING ###

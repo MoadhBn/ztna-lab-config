@@ -1,0 +1,10 @@
+[Unit]
+Description=Run the ZTNA backup job every night
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+RandomizedDelaySec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
